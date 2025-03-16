@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline';">
+    <title>AI YouTube Summarizer - Intellix</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --pastel-blue: #B8C7E4;
+            --pastel-pink: #E4B8C7;
+            --pastel-mint: #B8E4D3;
+            --pastel-lavender: #D3B8E4;
+            --text-color: #2A2A2A;
+            --bg-color: #F5F5F5;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --neumorph-shadow-dark: rgba(0, 0, 0, 0.1);
+            --neumorph-shadow-light: rgba(255, 255, 255, 0.8);
+            --glass-blur: 16px;
+            --spot-size: 300px;
+            --primary-gradient: linear-gradient(45deg, var(--pastel-blue), var(--pastel-lavender));
+            --secondary-gradient: linear-gradient(45deg, var(--pastel-pink), var(--pastel-mint));
+            --spot-blur: 80px;
+            --spot-opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 40px) scale(0.9); }
+            75% { transform: translate(20px, 20px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: var(--spot-opacity);
+                filter: blur(var(--spot-blur));
+            }
+            50% {
+                opacity: calc(var(--spot-opacity) + 0.1);
+                filter: blur(calc(var(--spot-blur) - 10px));
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .spot {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(var(--spot-blur));
+            animation: 
+                float 20s infinite,
+                pulse 8s infinite;
+            opacity: var(--spot-opacity);
+            mix-blend-mode: soft-light;
+        }
+
+        .spot:nth-child(1) {
+            width: calc(var(--spot-size) * 1.2);
+            height: calc(var(--spot-size) * 1.2);
+            background: var(--pastel-blue);
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .spot:nth-child(2) {
+            width: var(--spot-size);
+            height: var(--spot-size);
+            background: var(--pastel-pink);
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .spot:nth-child(3) {
+            width: calc(var(--spot-size) * 0.8);
+            height: calc(var(--spot-size) * 0.8);
+            background: var(--pastel-mint);
+            bottom: 10%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .spot:nth-child(4) {
+            width: calc(var(--spot-size) * 1.5);
+            height: calc(var(--spot-size) * 1.5);
+            background: var(--pastel-lavender);
+            top: 40%;
+            left: 40%;
+            animation-delay: -15s;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+.dropdown.active .dropdown-trigger .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+        .dropdown-content {
+            position: absolute;
+            top: 120%;
+            left: 0;
+            min-width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-content a {
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .main-content {
+            padding: 8rem 5% 4rem;
+            min-height: 100vh;
+        }
+
+        .youtube-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 
+                10px 10px 30px var(--neumorph-shadow-dark),
+                -10px -10px 30px var(--neumorph-shadow-light);
+            animation: slideIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        input[type="url"], 
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        input[type="url"]:focus, 
+        input[type="text"]:focus {
+            border-color: var(--pastel-blue);
+            outline: none;
+            box-shadow: 0 0 15px rgba(184, 199, 228, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        #summary, 
+        #followUpAnswer {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            min-height: 100px;
+        }
+
+        .loading {
+            text-align: center;
+            display: none;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .loading i {
+            margin-right: 8px;
+            color: var(--pastel-blue);
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(var(--glass-blur));
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-color);
+        }
+
+        @media screen and (max-width: 968px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links a {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+            
+        }
+
+        @media screen and (max-width: 768px) {
+            .youtube-container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding-top: 6rem;
+            }
+        }
+        /* Desktop hover behavior */
+@media (min-width: 969px) {
+    .dropdown:hover .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <a href="/index.html" class="logo">Intellix</a>
+            <button id="menuBtn" class="hamburger" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="#study-tools">
+                        <i class="fas fa-book"></i>
+                        Study Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#flashcards"><i class="fas fa-layer-group"></i> Flashcards</a>
+                        <a href="#summarizer"><i class="fas fa-file-alt"></i> Summarizer</a>
+                        <a href="#quizzes"><i class="fas fa-question-circle"></i> Quiz Generator</a>
+                        <a href="#notes"><i class="fas fa-sticky-note"></i> Note Taking</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#ai-tools">
+                        <i class="fas fa-robot"></i>
+                        AI Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#chatbot"><i class="fas fa-comments"></i> Study Assistant</a>
+                        <a href="./youtube.html"><i class="fab fa-youtube"></i> Youtube Summarizer</a>
+                    </div>
+                </div>
+                <a href="#resources"><i class="fas fa-archive"></i> Resources</a>
+                <a href="#community"><i class="fas fa-users"></i> Community</a>
+                <a href="#pricing"><i class="fas fa-tag"></i> Pricing</a>
+                <a href="#login" class="cta-button"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="main-content">
+        <div class="youtube-container">
+            <h1>AI YouTube Summarizer</h1>
+            <div class="input-group">
+                <input type="url" id="videoUrl" placeholder="Enter YouTube video URL" required>
+            </div>
+            <button onclick="getSummary()">
+                <i class="fas fa-magic"></i> Generate Summary
+            </button>
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin"></i> Generating summary...
+            </div>
+            <div id="summary"></div>
+            
+            <div id="follow-up-section" style="display: none; margin-top: 20px;">
+                <div class="input-group">
+                    <input type="text" id="followUpQuestion" placeholder="Ask a follow-up question about the video" required>
+                </div>
+                <button onclick="askFollowUp()">
+                    <i class="fas fa-question-circle"></i> Ask Question
+                </button>
+                <div id="followUpAnswer"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Intellix. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

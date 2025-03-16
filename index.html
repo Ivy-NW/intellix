@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellix - Smart Study Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --pastel-blue: #B8C7E4;
+            --pastel-pink: #E4B8C7;
+            --pastel-mint: #B8E4D3;
+            --pastel-lavender: #D3B8E4;
+            --text-color: #2A2A2A;
+            --bg-color: #F5F5F5;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --neumorph-shadow-dark: rgba(0, 0, 0, 0.1);
+            --neumorph-shadow-light: rgba(255, 255, 255, 0.8);
+            --glass-blur: 16px;
+            --spot-size: 300px;
+            --primary-gradient: linear-gradient(45deg, var(--pastel-blue), var(--pastel-lavender));
+            --secondary-gradient: linear-gradient(45deg, var(--pastel-pink), var(--pastel-mint));
+            --spot-blur: 80px;
+            --spot-opacity: 0.4;
+        }
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 40px) scale(0.9);
+            }
+            75% {
+                transform: translate(20px, 20px) scale(1.05);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+    0%, 100% {
+        opacity: var(--spot-opacity);
+        filter: blur(var(--spot-blur));
+    }
+    50% {
+        opacity: calc(var(--spot-opacity) + 0.1);
+        filter: blur(calc(var(--spot-blur) - 10px));
+    }
+}
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .spot {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(var(--spot-blur));
+            animation: 
+                float 20s infinite,
+                pulse 8s infinite;
+            opacity: var(--spot-opacity);
+            mix-blend-mode: soft-light; /* This creates a softer blend effect */
+        }
+
+        /* Updated spot positions and sizes */
+        .spot:nth-child(1) {
+            width: calc(var(--spot-size) * 1.2);
+            height: calc(var(--spot-size) * 1.2);
+            background: var(--pastel-blue);
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .spot:nth-child(2) {
+            width: var(--spot-size);
+            height: var(--spot-size);
+            background: var(--pastel-pink);
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .spot:nth-child(3) {
+            width: calc(var(--spot-size) * 0.8);
+            height: calc(var(--spot-size) * 0.8);
+            background: var(--pastel-mint);
+            bottom: 10%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .spot:nth-child(4) {
+            width: calc(var(--spot-size) * 1.5);
+            height: calc(var(--spot-size) * 1.5);
+            background: var(--pastel-lavender);
+            top: 40%;
+            left: 40%;
+            animation-delay: -15s;
+        }
+
+        /* Add more spots for variety */
+        .spot:nth-child(5) {
+            width: calc(var(--spot-size) * 0.7);
+            height: calc(var(--spot-size) * 0.7);
+            background: var(--pastel-blue);
+            top: 20%;
+            right: 25%;
+            animation-delay: -7s;
+        }
+
+        .spot:nth-child(6) {
+            width: calc(var(--spot-size) * 1.1);
+            height: calc(var(--spot-size) * 1.1);
+            background: var(--pastel-pink);
+            bottom: 30%;
+            right: 35%;
+            animation-delay: -12s;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: right;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        #menuBtn {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        #menuBtn:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 120%;
+            left: 0;
+            min-width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            padding: 0.8rem 1.2rem;
+            margin: 0.3rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        /* Hero Section Styles */
+        .hero-section {
+            padding: 120px 5% 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideIn 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Feature Section Styles */
+        .features-section {
+            padding: 80px 5%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                10px 10px 30px var(--neumorph-shadow-dark),
+                -10px -10px 30px var(--neumorph-shadow-light);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                15px 15px 45px var(--neumorph-shadow-dark),
+                -15px -15px 45px var(--neumorph-shadow-light);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .feature-description {
+            color: var(--text-color);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 5%;
+            position: relative;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 5%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+        }
+
+        .testimonial-quote {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid transparent;
+            background: var(--primary-gradient);
+            padding: 2px;
+        }
+
+        .author-info h4 {
+            color: var(--text-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 5%;
+        }
+
+        .pricing-grid {
+            display: flex;
+            flex-direction: row;  /* Make cards appear in a row */
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1400px;  /* Increased max-width to accommodate all cards */
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            flex: 1;  /* Make cards take equal width */
+            min-width: 280px;  /* Minimum width for each card */
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease;
+            box-shadow: 
+                10px 10px 30px var(--neumorph-shadow-dark),
+                -10px -10px 30px var(--neumorph-shadow-light);
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border: 2px solid transparent;
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,
+                var(--primary-gradient) border-box;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-header {
+            margin-bottom: 2rem;
+        }
+
+        .pricing-title {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+
+        .pricing-period {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--pastel-blue);
+        }
+        /* CTA Section Styles */
+        .cta-section {
+            padding: 100px 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(var(--glass-blur));
+            padding: 80px 5% 40px;
+            position: relative;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin: 0.8rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 
+                3px 3px 10px var(--neumorph-shadow-dark),
+                -3px -3px 10px var(--neumorph-shadow-light);
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 968px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+            .pricing-grid {
+                flex-direction: column;  /* Stack cards on mobile */
+                align-items: center;
+            }
+
+            .pricing-card {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);  /* Remove scaling on mobile */
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero-title {
+                font-size: 2.3rem;
+            }
+
+            .feature-card, .step-card, .testimonial-card, .pricing-card {
+                padding: 1.5rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+        @media screen and (max-width: 1024px) {
+            .pricing-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+                /* Mobile Menu Styles */
+        @media screen and (max-width: 768px) {
+            #menuBtn {
+                display: block; /* Show hamburger menu on mobile */
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px; /* Adjust based on your header height */
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+            }
+
+            .dropdown {
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: transparent;
+                box-shadow: none;
+                padding: 0 1rem;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .nav {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Tablet Styles */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-links a {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">Intellix</a>
+            <button id="menuBtn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="#study-tools">
+                        <i class="fas fa-book"></i>
+                        Study Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#flashcards">
+                            <i class="fas fa-layer-group"></i>
+                            Flashcards
+                        </a>
+                        <a href="#summarizer">
+                            <i class="fas fa-file-alt"></i>
+                            Summarizer
+                        </a>
+                        <a href="#notes">
+                            <i class="fas fa-sticky-note"></i>
+                            Smart Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#ai-tools">
+                        <i class="fas fa-robot"></i>
+                        AI Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="/chatbot/chat.html">
+                            <i class="fas fa-comments"></i>
+                            Study Assistant
+                        </a>
+                        <a href="/youtube/youtube.html">
+                            <i class="fab fa-youtube"></i>
+                            Video Summarizer
+                        </a>
+                        <a href="#quiz">
+                            <i class="fas fa-question-circle"></i>
+                            Quiz Generator
+                        </a>
+                    </div>
+                </div>
+                <a href="#resources">
+                    <i class="fas fa-archive"></i>
+                    Resources
+                </a>
+                <a href="#login" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Transform Your Learning Journey with AI</h1>
+                <p class="hero-subtitle">Harness the power of artificial intelligence to study smarter, not harder. Create personalized study plans, generate quizzes, and master any subject.</p>
+                <div class="hero-buttons">
+                    <a href="#get-started" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started Free
+                    </a>
+                    <a href="#demo" class="btn btn-secondary">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <h2 class="section-title">Revolutionary Features</h2>
+            <div class="features-grid">
+                <div class="feature-card animate-fadeInUp">
+                    <i class="fas fa-brain feature-icon"></i>
+                    <h3 class="feature-title">AI Study Assistant</h3>
+                    <p class="feature-description">Get instant answers to your questions and receive personalized explanations tailored to your learning style.</p>
+                </div>
+                <div class="feature-card animate-fadeInUp">
+                    <i class="fas fa-magic feature-icon"></i>
+                    <h3 class="feature-title">Smart Summarization</h3>
+                    <p class="feature-description">Transform lengthy content into concise, easy-to-understand summaries with our AI-powered tools.</p>
+                </div>
+                <div class="feature-card animate-fadeInUp">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h3 class="feature-title">Progress Tracking</h3>
+                    <p class="feature-description">Monitor your learning progress with detailed analytics and personalized insights.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up</h3>
+                    <p>Create your free account and tell us about your learning goals.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Choose Your Tools</h3>
+                    <p>Select from our suite of AI-powered study tools and features.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Start Learning</h3>
+                    <p>Begin your enhanced learning journey with personalized support.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Intellix has completely transformed how I study. The AI assistant feels like having a personal tutor available 24/7."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Sarah M." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Sarah M.</h4>
+                            <p>Medical Student</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"The smart summarization feature saves me hours of reading time. It's like having a study superpower!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="James K." class="author-avatar">
+                        <div class="author-info">
+                            <h4>James K.</h4>
+                            <p>Graduate Student</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"As a teacher, I love how Intellix helps me create engaging study materials for my students in minutes."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Emily R." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Emily R.</h4>
+                            <p>High School Teacher</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing">
+            <h2 class="section-title">Choose Your Plan</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Basic</h3>
+                        <div class="pricing-price">Free</div>
+                        <p class="pricing-period">Forever</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Basic AI Study Assistant</li>
+                        <li>5 Summaries per month</li>
+                        <li>Basic Progress Tracking</li>
+                        <li>Community Support</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-secondary">Get Started</a>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Pro</h3>
+                        <div class="pricing-price">$9.99</div>
+                        <p class="pricing-period">per month</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Advanced AI Assistant</li>
+                        <li>Unlimited Summaries</li>
+                        <li>Advanced Analytics</li>
+                        <li>Priority Support</li>
+                        <li>Custom Study Plans</li>
+                    </ul>
+                    <a href="#signup-pro" class="btn btn-primary">Upgrade Now</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Team</h3>
+                        <div class="pricing-price">$29.99</div>
+                        <p class="pricing-period">per month</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Everything in Pro</li>
+                        <li>Team Collaboration</li>
+                        <li>Admin Dashboard</li>
+                        <li>API Access</li>
+                        <li>Custom Integration</li>
+                    </ul>
+                    <a href="#contact-sales" class="btn btn-secondary">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Learning?</h2>
+                <p class="cta-description">Join thousands of students who are already experiencing the future of learning with Intellix.</p>
+                <div class="cta-buttons">
+                    <a href="#get-started" class="btn btn-primary">Start Free Trial</a>
+                    <a href="#learn-more" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#press">Press</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#changelog">Changelog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#guides">Guides</a></li>
+                    <li><a href="#api">API Docs</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#twitter" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#linkedin" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#instagram" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Intellix. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.querySelector('.nav-links');
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        // Toggle mobile menu
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Handle dropdowns on mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('a');
+            
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(other => {
+                        if (other !== dropdown) {
+                            other.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when window is resized above mobile breakpoint
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+            }
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeInUp');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.feature-card, .step-card, .testimonial-card, .pricing-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+                    // Add this to your existing JavaScript
+            document.addEventListener('mousemove', (e) => {
+                const spots = document.querySelectorAll('.spot');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+
+                spots.forEach((spot, index) => {
+                    const factor = (index + 1) * 0.1;
+                    const offsetX = (mouseX - 0.5) * 50 * factor;
+                    const offsetY = (mouseY - 0.5) * 50 * factor;
+                    
+                    spot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                });
+            });
+    </script>
+</body>
+</html>
