@@ -7,6 +7,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
