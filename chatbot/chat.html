@@ -87,142 +87,92 @@
         }
 
         .nav-links {
-        display: flex;
-        gap: 1.2rem;
-        align-items: center;
-    }
-
-    .nav-links a {
-        color: var(--text-color);
-        text-decoration: none;
-        padding: 0.8rem 1.2rem;
-        border-radius: 12px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        box-shadow: 
-            5px 5px 15px var(--neumorph-shadow-dark),
-            -5px -5px 15px var(--neumorph-shadow-light);
-    }
-
-    .nav-links a:hover {
-        background: rgba(255, 255, 255, 0.25);
-        transform: translateY(-2px);
-        box-shadow: 
-            8px 8px 20px var(--neumorph-shadow-dark),
-            -8px -8px 20px var(--neumorph-shadow-light);
-    }
-
-    #menuBtn {
-        display: none;
-        background: transparent;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--text-color);
-        cursor: pointer;
-        padding: 0.5rem;
-        transition: transform 0.3s ease;
-    }
-
-    .dropdown {
-        position: relative;
-    }
-
-    .dropdown-content {
-        position: absolute;
-        top: 120%;
-        left: 0;
-        min-width: 220px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 0.8rem;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(10px);
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        z-index: 1000;
-    }
-
-    .dropdown:hover .dropdown-content {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .dropdown-content a {
-        padding: 0.8rem 1.2rem;
-        margin: 0.3rem 0;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-    }
-
-    /* Mobile Responsive Styles */
-    @media screen and (max-width: 768px) {
-        #menuBtn {
-            display: block;
-        }
-
-        .nav-links {
-            position: fixed;
-            top: 70px;
-            left: -100%;
-            width: 100%;
-            height: calc(100vh - 70px);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            flex-direction: column;
-            padding: 2rem;
-            transition: left 0.3s ease;
-            z-index: 1000;
-        }
-
-        .nav-links.active {
-            left: 0;
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
         }
 
         .nav-links a {
-            width: 100%;
-            text-align: left;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        #menuBtn {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
         }
 
         .dropdown {
-            width: 100%;
+            position: relative;
         }
 
         .dropdown-content {
-            position: static;
-            opacity: 1;
-            visibility: visible;
-            transform: none;
-            background: transparent;
-            box-shadow: none;
-            padding: 0 1rem;
-            display: none;
+            position: absolute;
+            top: 120%;
+            left: 0;
+            min-width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
         }
 
-        .dropdown.active .dropdown-content {
-            display: block;
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
-    }
+
+        .dropdown-content a {
+            padding: 0.8rem 1.2rem;
+            margin: 0.3rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
 
         /* Chat Container Styles */
         .chat-container {
             width: 90%;
-            margin-top: 100px;
             max-width: 800px;
-            margin: 80px auto 20px;
+            margin: 100px auto 20px;
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(var(--glass-blur));
             border-radius: 20px;
@@ -231,54 +181,75 @@
                 -10px -10px 30px var(--neumorph-shadow-light);
             display: flex;
             flex-direction: column;
-            height: calc(90vh - 80px);
+            height: calc(90vh - 100px);
             border: 1px solid var(--glass-border);
+            overflow: hidden;
         }
 
         .chat-header {
             padding: 20px;
             background: var(--primary-gradient);
             color: white;
-            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
         }
 
         .chat-messages {
             flex: 1;
-            overflow-y: auto;
             padding: 20px;
+            overflow-y: auto;
         }
 
         .message {
+            display: flex;
+            align-items: flex-start;
             margin-bottom: 15px;
+        }
+
+        .message-content {
             padding: 15px;
             border-radius: 15px;
-            max-width: 80%;
+            max-width: 70%;
             word-wrap: break-word;
             animation: slideIn 0.3s ease-out;
         }
 
         .user-message {
+            flex-direction: row-reverse;
+        }
+
+        .user-message .message-content {
             background: var(--primary-gradient);
             color: white;
-            margin-left: auto;
+            margin-right: 10px;
             box-shadow: 5px 5px 15px var(--neumorph-shadow-dark);
         }
 
-        .bot-message {
+        .bot-message .message-content {
             background: rgba(255, 255, 255, 0.9);
             color: var(--text-color);
+            margin-left: 10px;
             box-shadow: 
                 5px 5px 15px var(--neumorph-shadow-dark),
                 -5px -5px 15px var(--neumorph-shadow-light);
         }
 
-        .input-container {
+        .profile-image {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .chat-input-container {
+            display: flex;
             padding: 20px;
             border-top: 1px solid var(--glass-border);
-            display: flex;
-            gap: 10px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 0 0 20px 20px;
         }
 
         #user-input {
@@ -288,6 +259,8 @@
             border-radius: 12px;
             outline: none;
             background: rgba(255, 255, 255, 0.9);
+            color: var(--text-color);
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
@@ -304,12 +277,18 @@
             border: none;
             border-radius: 12px;
             cursor: pointer;
+            margin-left: 10px;
             transition: transform 0.3s ease;
             box-shadow: 5px 5px 15px var(--neumorph-shadow-dark);
         }
 
         #send-button:hover {
             transform: translateY(-2px);
+        }
+
+        #send-button:disabled {
+            background: #B8C7E4;
+            cursor: not-allowed;
         }
 
         .typing-indicator {
@@ -320,6 +299,24 @@
             color: var(--text-color);
             margin-bottom: 15px;
             animation: pulse 1.5s infinite;
+        }
+
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #B8C7E4;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D3B8E4;
         }
 
         /* Animations */
@@ -343,74 +340,129 @@
                 transform: translateY(0);
             }
         }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            #menuBtn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: left;
+            }
+
+            .dropdown {
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: transparent;
+                box-shadow: none;
+                padding: 0 1rem;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .chat-container {
+                width: 100%;
+                height: calc(100vh - 70px);
+                margin: 70px 0 0;
+                border-radius: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="background-animation">
-        <div class="spot"></div>
-        <div class="spot"></div>
-        <div class="spot"></div>
-        <div class="spot"></div>
+        <div class="spot" style="width: 300px; height: 300px; background: var(--pastel-blue); top: 10%; left: 20%;"></div>
+        <div class="spot" style="width: 250px; height: 250px; background: var(--pastel-pink); bottom: 20%; right: 10%;"></div>
+        <div class="spot" style="width: 200px; height: 200px; background: var(--pastel-mint); top: 40%; right: 30%;"></div>
+        <div class="spot" style="width: 350px; height: 350px; background: var(--pastel-lavender); bottom: 10%; left: 5%;"></div>
     </div>
 
     <header class="header">
-      <nav class="nav">
-          <a href="#" class="logo">Intellix</a>
-          <button id="menuBtn" aria-label="Toggle menu">
-              <i class="fas fa-bars"></i>
-          </button>
-          <div class="nav-links">
-              <div class="dropdown">
-                  <a href="#study-tools">
-                      <i class="fas fa-book"></i>
-                      Study Tools
-                  </a>
-                  <div class="dropdown-content">
-                      <a href="#flashcards">
-                          <i class="fas fa-layer-group"></i>
-                          Flashcards
-                      </a>
-                      <a href="#summarizer">
-                          <i class="fas fa-file-alt"></i>
-                          Summarizer
-                      </a>
-                      <a href="#notes">
-                          <i class="fas fa-sticky-note"></i>
-                          Smart Notes
-                      </a>
-                  </div>
-              </div>
-              <div class="dropdown">
-                  <a href="#ai-tools">
-                      <i class="fas fa-robot"></i>
-                      AI Tools
-                  </a>
-                  <div class="dropdown-content">
-                      <a href="#assistant">
-                          <i class="fas fa-comments"></i>
-                          Study Assistant
-                      </a>
-                      <a href="#video">
-                          <i class="fab fa-youtube"></i>
-                          Video Summarizer
-                      </a>
-                      <a href="#quiz">
-                          <i class="fas fa-question-circle"></i>
-                          Quiz Generator
-                      </a>
-                  </div>
-              </div>
-              <a href="#resources">
-                  <i class="fas fa-archive"></i>
-                  Resources
-              </a>
-              <a href="#login" class="btn btn-primary">
-                  <i class="fas fa-sign-in-alt"></i>
-                  Login
-              </a>
-          </div>
-      </nav>
-  </header>
+        <nav class="nav">
+            <a href="/index.html" class="logo">Intellix</a>
+            <button id="menuBtn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="#study-tools">
+                        <i class="fas fa-book"></i>
+                        Study Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#flashcards">
+                            <i class="fas fa-layer-group"></i>
+                            Flashcards
+                        </a>
+                        <a href="#summarizer">
+                            <i class="fas fa-file-alt"></i>
+                            Summarizer
+                        </a>
+                        <a href="#notes">
+                            <i class="fas fa-sticky-note"></i>
+                            Smart Notes
+                        </a>
+                        <a href="#quiz">
+                            <i class="fas fa-question-circle"></i>
+                            Quiz Generator
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#ai-tools">
+                        <i class="fas fa-robot"></i>
+                        AI Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="/chatbot/chat.html">
+                            <i class="fas fa-comments"></i>
+                            Study Assistant
+                        </a>
+                        <a href="/youtube/youtube.html">
+                            <i class="fab fa-youtube"></i>
+                            Video Summarizer
+                        </a>
+                    </div>
+                </div>
+                <a href="#resources"><i class="fas fa-archive"></i> Resources</a>
+                <a href="#community"><i class="fas fa-users"></i> Community</a>
+                <a href="#pricing"><i class="fas fa-tag"></i> Pricing</a>
+                <a href="#login" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            </div>
+        </nav>
+    </header>
 
     <div class="chat-container">
         <div class="chat-header">
@@ -418,13 +470,16 @@
         </div>
         <div class="chat-messages" id="chat-messages">
             <div class="message bot-message">
-                Hello! I'm your Intellix AI assistant. How can I help you today?
+                <img src="/chatbot/bot.jpg" class="profile-image" alt="AI">
+                <div class="message-content">
+                    Hello! I'm your Intellix AI assistant. How can I help you today?
+                </div>
             </div>
         </div>
         <div class="typing-indicator" id="typing-indicator">
             Intellix is thinking...
         </div>
-        <div class="input-container">
+        <div class="chat-input-container">
             <input type="text" id="user-input" placeholder="Type your message...">
             <button id="send-button">
                 <i class="fas fa-paper-plane"></i>
