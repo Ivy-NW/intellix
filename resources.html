@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellix - Learning Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --pastel-blue: #B8C7E4;
+            --pastel-pink: #E4B8C7;
+            --pastel-mint: #B8E4D3;
+            --pastel-lavender: #D3B8E4;
+            --text-color: #2A2A2A;
+            --bg-color: #F5F5F5;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --neumorph-shadow-dark: rgba(0, 0, 0, 0.1);
+            --neumorph-shadow-light: rgba(255, 255, 255, 0.8);
+            --glass-blur: 16px;
+            --spot-size: 300px;
+            --primary-gradient: linear-gradient(45deg, var(--pastel-blue), var(--pastel-lavender));
+            --secondary-gradient: linear-gradient(45deg, var(--pastel-pink), var(--pastel-mint));
+            --spot-blur: 80px;
+            --spot-opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 40px) scale(0.9);
+            }
+            75% {
+                transform: translate(20px, 20px) scale(1.05);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: var(--spot-opacity);
+                filter: blur(var(--spot-blur));
+            }
+            50% {
+                opacity: calc(var(--spot-opacity) + 0.1);
+                filter: blur(calc(var(--spot-blur) - 10px));
+            }
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .spot {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(var(--spot-blur));
+            animation: 
+                float 20s infinite,
+                pulse 8s infinite;
+            opacity: var(--spot-opacity);
+            mix-blend-mode: soft-light;
+        }
+
+        .spot:nth-child(1) {
+            width: calc(var(--spot-size) * 1.2);
+            height: calc(var(--spot-size) * 1.2);
+            background: var(--pastel-blue);
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .spot:nth-child(2) {
+            width: var(--spot-size);
+            height: var(--spot-size);
+            background: var(--pastel-pink);
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .spot:nth-child(3) {
+            width: calc(var(--spot-size) * 0.8);
+            height: calc(var(--spot-size) * 0.8);
+            background: var(--pastel-mint);
+            bottom: 10%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .spot:nth-child(4) {
+            width: calc(var(--spot-size) * 1.5);
+            height: calc(var(--spot-size) * 1.5);
+            background: var(--pastel-lavender);
+            top: 40%;
+            left: 40%;
+            animation-delay: -15s;
+        }
+
+        .spot:nth-child(5) {
+            width: calc(var(--spot-size) * 0.7);
+            height: calc(var(--spot-size) * 0.7);
+            background: var(--pastel-blue);
+            top: 20%;
+            right: 25%;
+            animation-delay: -7s;
+        }
+
+        .spot:nth-child(6) {
+            width: calc(var(--spot-size) * 1.1);
+            height: calc(var(--spot-size) * 1.1);
+            background: var(--pastel-pink);
+            bottom: 30%;
+            right: 35%;
+            animation-delay: -12s;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: right;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        #menuBtn {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        #menuBtn:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 120%;
+            left: 0;
+            min-width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            padding: 0.8rem 1.2rem;
+            margin: 0.3rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 5% 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 1s ease-out;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Resource Categories */
+        .resource-categories {
+            padding: 20px 5% 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-tab {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .category-tab:hover, .category-tab.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-description {
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        .roadmap-container {
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .roadmap-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 4px;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+            transition: transform 0.3s ease;
+        }
+
+        .roadmap-item:hover {
+            transform: translateY(-5px) translateX(5px);
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .roadmap-item::after {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 2.5rem;
+            width: 26px;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .roadmap-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .roadmap-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        .resource-list {
+            list-style: none;
+        }
+
+        .resource-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .resource-title i {
+            font-size: 1.2rem;
+            color: var(--pastel-lavender);
+        }
+
+        .resource-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .resource-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .resource-description {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 
+                3px 3px 10px var(--neumorph-shadow-dark),
+                -3px -3px 10px var(--neumorph-shadow-light);
+        }
+
+        .resource-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Video Resources */
+        .video-resources {
+            padding: 40px 5%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .play-icon {
+            background: var(--primary-gradient);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-content {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-channel {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .channel-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .channel-name {
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Book Recommendations */
+        .book-recommendations {
+            padding: 60px 5%;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .book-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .book-cover {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .book-author {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .book-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            flex: 1;
+        }
+
+        .book-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 
+                3px 3px 10px var(--neumorph-shadow-dark),
+                -3px -3px 10px var(--neumorph-shadow-light);
+            align-self: flex-start;
+        }
+
+        .book-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(var(--glass-blur));
+            padding: 80px 5% 40px;
+            position: relative;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin: 0.8rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 
+                3px 3px 10px var(--neumorph-shadow-dark),
+                -3px -3px 10px var(--neumorph-shadow-light);
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 968px) {
+            .page-title {
+                font-size: 2.8rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .roadmap-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            #menuBtn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+            }
+
+            .dropdown {
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: transparent;
+                box-shadow: none;
+                padding: 0 1rem;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .page-title {
+                font-size: 2.3rem;
+            }
+
+            .roadmap-container {
+                padding-left: 30px;
+            }
+
+            .roadmap-container::before {
+                left: 10px;
+            }
+
+            .roadmap-item::before {
+                left: -26px;
+            }
+
+            .roadmap-item::after {
+                left: -16px;
+                width: 16px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-links a {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">Intellix</a>
+            <button id="menuBtn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="#study-tools">
+                        <i class="fas fa-book"></i>
+                        Study Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#flashcards">
+                            <i class="fas fa-layer-group"></i>
+                            Flashcards
+                        </a>
+                        <a href="#summarizer">
+                            <i class="fas fa-file-alt"></i>
+                            Summarizer
+                        </a>
+                        <a href="#notes">
+                            <i class="fas fa-sticky-note"></i>
+                            Smart Notes
+                        </a>
+                        <a href="#quiz">
+                            <i class="fas fa-question-circle"></i>
+                            Quiz Generator
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#ai-tools">
+                        <i class="fas fa-robot"></i>
+                        AI Tools
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="/chatbot/chat.html">
+                            <i class="fas fa-comments"></i>
+                            Study Assistant
+                        </a>
+                        <a href="/youtube/youtube.html">
+                            <i class="fab fa-youtube"></i>
+                            Video Summarizer
+                        </a>
+                    </div>
+                </div>
+                <a href="resources.html"><i class="fas fa-archive"></i> Resources</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+                <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+                <a href="#login" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1 class="page-title">STEM Learning Resources</h1>
+            <p class="page-subtitle">Comprehensive roadmaps, courses, videos, and books to guide your journey in technology, engineering, and mathematics.</p>
+        </section>
+
+        <section class="resource-categories">
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="all">All Resources</div>
+                <div class="category-tab" data-category="frontend">Frontend Development</div>
+                <div class="category-tab" data-category="backend">Backend Development</div>
+                <div class="category-tab" data-category="cybersecurity">Cybersecurity</div>
+                <div class="category-tab" data-category="blockchain">Blockchain</div>
+                <div class="category-tab" data-category="data-structures">Data Structures & Algorithms</div>
+                <div class="category-tab" data-category="machine-learning">Machine Learning</div>
+            </div>
+        </section>
+
+        <section class="roadmap-section" id="frontend">
+            <h2 class="section-title">Frontend Development Roadmap</h2>
+            <p class="section-description">Master the art of creating beautiful, responsive, and interactive user interfaces with this comprehensive frontend development roadmap.</p>
+            
+            <div class="roadmap-container">
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">1. HTML & CSS Fundamentals</h3>
+                    <p class="roadmap-description">Start with the building blocks of the web. Learn HTML for structure and CSS for styling to create static web pages.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> HTML & CSS Crash Course</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 8 hours</span>
+                                <span><i class="fas fa-signal"></i> Beginner</span>
+                                <span><i class="fas fa-user"></i> Traversy Media</span>
+                            </div>
+                            <p class="resource-description">A comprehensive introduction to HTML5 and CSS3 with practical examples and projects.</p>
+                            <div class="tags">
+                                <span class="tag">HTML5</span>
+                                <span class="tag">CSS3</span>
+                                <span class="tag">Responsive Design</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=UB1O30fR-EE" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> HTML and CSS: Design and Build Websites</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Jon Duckett</span>
+                                <span><i class="fas fa-star"></i> 4.7/5 (2,500+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A beautifully designed book that introduces HTML and CSS in a way that makes it accessible to everyone.</p>
+                            <a href="https://www.amazon.com/HTML-CSS-Design-Build-Websites/dp/1118008189" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">2. JavaScript Essentials</h3>
+                    <p class="roadmap-description">Learn JavaScript to add interactivity to your websites. Master variables, functions, DOM manipulation, and event handling.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> JavaScript Crash Course</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 10 hours</span>
+                                <span><i class="fas fa-signal"></i> Beginner to Intermediate</span>
+                                <span><i class="fas fa-user"></i> freeCodeCamp</span>
+                            </div>
+                            <p class="resource-description">A comprehensive JavaScript course covering fundamentals to advanced concepts with practical examples.</p>
+                            <div class="tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">ES6+</span>
+                                <span class="tag">DOM Manipulation</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=jS4aFq5-91M" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Eloquent JavaScript</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Marijn Haverbeke</span>
+                                <span><i class="fas fa-star"></i> 4.6/5 (1,800+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A modern introduction to programming with JavaScript, covering language basics to advanced topics.</p>
+                            <a href="https://eloquentjavascript.net/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Read Online (Free)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">3. Frontend Frameworks</h3>
+                    <p class="roadmap-description">Learn popular frontend frameworks like React, Vue, or Angular to build complex, interactive web applications efficiently.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> React - The Complete Guide</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 40+ hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate</span>
+                                <span><i class="fas fa-user"></i> Academind</span>
+                            </div>
+                            <p class="resource-description">Comprehensive guide to React.js, covering components, hooks, state management, and more with practical projects.</p>
+                            <div class="tags">
+                                <span class="tag">React</span>
+                                <span class="tag">Hooks</span>
+                                <span class="tag">Redux</span>
+                                <span class="tag">React Router</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=bMknfKXIFA8" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Full Stack React: Modern Web Development</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Anthony Accomazzo et al.</span>
+                                <span><i class="fas fa-star"></i> 4.5/5 (500+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A comprehensive guide to building full-stack applications with React and supporting technologies.</p>
+                            <a href="https://www.amazon.com/Fullstack-React-Complete-ReactJS-Libraries/dp/0991344626" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap-section" id="backend">
+            <h2 class="section-title">Backend Development Roadmap</h2>
+            <p class="section-description">Learn to build robust, scalable server-side applications that power modern web services and APIs.</p>
+            
+            <div class="roadmap-container">
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">1. Programming Fundamentals</h3>
+                    <p class="roadmap-description">Master a backend programming language like Python, Node.js, Java, or C# along with core programming concepts.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Python Backend Development</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 15 hours</span>
+                                <span><i class="fas fa-signal"></i> Beginner to Intermediate</span>
+                                <span><i class="fas fa-user"></i> Tech With Tim</span>
+                            </div>
+                            <p class="resource-description">Learn Python for backend development, covering core concepts, Flask, and database integration.</p>
+                            <div class="tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Flask</span>
+                                <span class="tag">SQLAlchemy</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=Z1RJmh_OqeA" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Node.js Design Patterns</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Mario Casciaro & Luciano Mammino</span>
+                                <span><i class="fas fa-star"></i> 4.7/5 (300+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A comprehensive guide to Node.js best practices and design patterns for building efficient applications.</p>
+                            <a href="https://www.amazon.com/Node-js-Design-Patterns-production-grade-applications/dp/1839214112" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">2. Databases & Data Modeling</h3>
+                    <p class="roadmap-description">Learn about relational and NoSQL databases, data modeling, and how to interact with databases from your applications.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> SQL & Database Design</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 12 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate</span>
+                                <span><i class="fas fa-user"></i> Programming with Mosh</span>
+                            </div>
+                            <p class="resource-description">Comprehensive SQL course covering database design, queries, stored procedures, and optimization.</p>
+                            <div class="tags">
+                                <span class="tag">SQL</span>
+                                <span class="tag">Database Design</span>
+                                <span class="tag">PostgreSQL</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=HXV3zeQKqGY" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> MongoDB: The Definitive Guide</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Shannon Bradshaw & Kristina Chodorow</span>
+                                <span><i class="fas fa-star"></i> 4.5/5 (200+ reviews)</span>
+                            </div>
+                            <p class="resource-description">Comprehensive guide to MongoDB, covering document databases, schema design, and application development.</p>
+                            <a href="https://www.amazon.com/MongoDB-Definitive-Powerful-Scalable-Storage/dp/1491954469" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">3. APIs & Microservices</h3>
+                    <p class="roadmap-description">Learn to design and build RESTful APIs, GraphQL services, and microservice architectures for scalable applications.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> RESTful API Design</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 8 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate</span>
+                                <span><i class="fas fa-user"></i> freeCodeCamp</span>
+                            </div>
+                            <p class="resource-description">Learn to design and implement RESTful APIs with best practices for authentication, versioning, and documentation.</p>
+                            <div class="tags">
+                                <span class="tag">REST</span>
+                                <span class="tag">API Design</span>
+                                <span class="tag">Express.js</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=fsMEQmuGXRw" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Building Microservices</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Sam Newman</span>
+                                <span><i class="fas fa-star"></i> 4.6/5 (500+ reviews)</span>
+                            </div>
+                            <p class="resource-description">Comprehensive guide to designing, implementing, and managing microservice architectures.</p>
+                            <a href="https://www.amazon.com/Building-Microservices-Designing-Fine-Grained-Systems/dp/1492034029" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap-section" id="cybersecurity">
+            <h2 class="section-title">Cybersecurity Roadmap</h2>
+            <p class="section-description">Master the skills needed to protect systems, networks, and data from digital attacks and security breaches.</p>
+            
+            <div class="roadmap-container">
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">1. Networking Fundamentals</h3>
+                    <p class="roadmap-description">Understand how networks function, including protocols, architecture, and common vulnerabilities.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Computer Networking Course</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 15 hours</span>
+                                <span><i class="fas fa-signal"></i> Beginner to Intermediate</span>
+                                <span><i class="fas fa-user"></i> Network Chuck</span>
+                            </div>
+                            <p class="resource-description">Comprehensive introduction to networking concepts, protocols, and security fundamentals.</p>
+                            <div class="tags">
+                                <span class="tag">TCP/IP</span>
+                                <span class="tag">OSI Model</span>
+                                <span class="tag">Routing</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=qiQR5rTSshw" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Computer Networking: A Top-Down Approach</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> James Kurose & Keith Ross</span>
+                                <span><i class="fas fa-star"></i> 4.7/5 (800+ reviews)</span>
+                            </div>
+                            <p class="resource-description">Comprehensive textbook on computer networking with a focus on the Internet and modern network technologies.</p>
+                            <a href="https://www.amazon.com/Computer-Networking-Top-Down-Approach-7th/dp/0133594149" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">2. Security Fundamentals & Ethical Hacking</h3>
+                    <p class="roadmap-description">Learn core security concepts, common vulnerabilities, and ethical hacking techniques to identify and mitigate threats.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Ethical Hacking Course</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 25 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate</span>
+                                <span><i class="fas fa-user"></i> The Cyber Mentor</span>
+                            </div>
+                            <p class="resource-description">Comprehensive ethical hacking course covering reconnaissance, exploitation, and post-exploitation techniques.</p>
+                            <div class="tags">
+                                <span class="tag">Penetration Testing</span>
+                                <span class="tag">Vulnerability Assessment</span>
+                                <span class="tag">Kali Linux</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=3Kq1MIfTWCE" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> The Web Application Hacker's Handbook</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Dafydd Stuttard & Marcus Pinto</span>
+                                <span><i class="fas fa-star"></i> 4.8/5 (600+ reviews)</span>
+                            </div>
+                            <p class="resource-description">Comprehensive guide to finding and exploiting security flaws in web applications.</p>
+                            <a href="https://www.amazon.com/Web-Application-Hackers-Handbook-Exploiting/dp/1118026470" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">3. Security Operations & Incident Response</h3>
+                    <p class="roadmap-description">Learn to monitor systems for security events, analyze threats, and respond to security incidents effectively.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Security Operations Center (SOC) Training</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 20 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate to Advanced</span>
+                                <span><i class="fas fa-user"></i> John Hammond</span>
+                            </div>
+                            <p class="resource-description">Comprehensive training on security monitoring, threat detection, and incident response in a SOC environment.</p>
+                            <div class="tags">
+                                <span class="tag">SIEM</span>
+                                <span class="tag">Threat Hunting</span>
+                                <span class="tag">Incident Response</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=Bt5fh3wQUAQ" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Practical Malware Analysis</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Michael Sikorski & Andrew Honig</span>
+                                <span><i class="fas fa-star"></i> 4.8/5 (400+ reviews)</span>
+                            </div>
+                            <p class="resource-description">Hands-on guide to dissecting malicious software to understand how it works and how to defend against it.</p>
+                            <a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-resources">
+            <h2 class="section-title">Featured Video Courses</h2>
+            <div class="video-grid">
+                <a href="https://www.youtube.com/watch?v=8mAITcNt710" class="video-card animate-fadeInUp" target="_blank">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/8mAITcNt710/maxresdefault.jpg" alt="React Course">
+                        <div class="play-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">React JS Course for Beginners - 2023 Tutorial</h3>
+                        <div class="video-channel">
+                            <img src="https://yt3.googleusercontent.com/ytc/APkrFKaqca-xQcJtp9tQAY5u4Wqg_xjNBjU8nX-srg5MYA=s176-c-k-c0x00ffffff-no-rj" alt="freeCodeCamp" class="channel-icon">
+                            <span class="channel-name">freeCodeCamp</span>
+                        </div>
+                        <div class="video-meta">
+                            <span><i class="fas fa-clock"></i> 11:55:27</span>
+                            <span><i class="fas fa-eye"></i> 1.2M views</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=HXV3zeQKqGY" class="video-card animate-fadeInUp" target="_blank">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/HXV3zeQKqGY/maxresdefault.jpg" alt="SQL Course">
+                        <div class="play-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">SQL Tutorial - Full Database Course for Beginners</h3>
+                        <div class="video-channel">
+                            <img src="https://yt3.googleusercontent.com/ytc/APkrFKaqca-xQcJtp9tQAY5u4Wqg_xjNBjU8nX-srg5MYA=s176-c-k-c0x00ffffff-no-rj" alt="freeCodeCamp" class="channel-icon">
+                            <span class="channel-name">freeCodeCamp</span>
+                        </div>
+                        <div class="video-meta">
+                            <span><i class="fas fa-clock"></i> 4:20:37</span>
+                            <span><i class="fas fa-eye"></i> 7.8M views</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=3Kq1MIfTWCE" class="video-card animate-fadeInUp" target="_blank">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/3Kq1MIfTWCE/maxresdefault.jpg" alt="Ethical Hacking">
+                        <div class="play-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Full Ethical Hacking Course - Network Penetration Testing</h3>
+                        <div class="video-channel">
+                            <img src="https://yt3.googleusercontent.com/ytc/APkrFKaqca-xQcJtp9tQAY5u4Wqg_xjNBjU8nX-srg5MYA=s176-c-k-c0x00ffffff-no-rj" alt="freeCodeCamp" class="channel-icon">
+                            <span class="channel-name">freeCodeCamp</span>
+                        </div>
+                        <div class="video-meta">
+                            <span><i class="fas fa-clock"></i> 14:42:51</span>
+                            <span><i class="fas fa-eye"></i> 3.5M views</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=qiQR5rTSshw" class="video-card animate-fadeInUp" target="_blank">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/qiQR5rTSshw/maxresdefault.jpg" alt="Networking Course">
+                        <div class="play-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Computer Networking Course - Network Engineering</h3>
+                        <div class="video-channel">
+                            <img src="https://yt3.googleusercontent.com/ytc/APkrFKaqca-xQcJtp9tQAY5u4Wqg_xjNBjU8nX-srg5MYA=s176-c-k-c0x00ffffff-no-rj" alt="freeCodeCamp" class="channel-icon">
+                            <span class="channel-name">freeCodeCamp</span>
+                        </div>
+                        <div class="video-meta">
+                            <span><i class="fas fa-clock"></i> 9:07:23</span>
+                            <span><i class="fas fa-eye"></i> 2.1M views</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="book-recommendations">
+            <h2 class="section-title">Essential STEM Books</h2>
+            <div class="book-grid">
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="data:image/jpeg;base64,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" alt="Clean Code">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">Clean Code: A Handbook of Agile Software Craftsmanship</h3>
+                        <p class="book-author">By Robert C. Martin</p>
+                        <p class="book-description">A must-read for any developer, this book focuses on the principles, patterns, and practices of writing clean, maintainable code.</p>
+                        <a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="data:image/jpeg;base64,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" alt="Cracking the Coding Interview">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">Cracking the Coding Interview</h3>
+                        <p class="book-author">By Gayle Laakmann McDowell</p>
+                        <p class="book-description">The definitive guide to preparing for technical interviews, with 189 programming questions and solutions.</p>
+                        <a href="https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/41xShlnTZTL._SX376_BO1,204,203,200_.jpg" alt="The Pragmatic Programmer">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">The Pragmatic Programmer</h3>
+                        <p class="book-author">By Andrew Hunt & David Thomas</p>
+                        <p class="book-description">A classic that cuts through the increasing specialization and technicalities of modern software development.</p>
+                        <a href="https://www.amazon.com/Pragmatic-Programmer-journey-mastery-Anniversary/dp/0135957052" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/51Kwaw5nInL._SX258_BO1,204,203,200_.jpg" alt="Introduction to Algorithms">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">Introduction to Algorithms</h3>
+                        <p class="book-author">By Thomas H. Cormen et al.</p>
+                        <p class="book-description">The definitive guide to algorithms and data structures, covering a broad range of algorithms in depth.</p>
+                        <a href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="data:image/png;base64,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" alt="Designing Data-Intensive Applications">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">Designing Data-Intensive Applications</h3>
+                        <p class="book-author">By Martin Kleppmann</p>
+                        <p class="book-description">A deep dive into the principles of data systems, helping you navigate the diverse landscape of database technologies.</p>
+                        <a href="https://www.amazon.com/Designing-Data-Intensive-Applications-Reliable-Maintainable/dp/1449373321" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/51imLrht6lL._SX389_BO1,204,203,200_.jpg" alt="JavaScript: The Good Parts">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">JavaScript: The Good Parts</h3>
+                        <p class="book-author">By Douglas Crockford</p>
+                        <p class="book-description">A concise guide that focuses on the good features of JavaScript, showing how to use them effectively.</p>
+                        <a href="https://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUSExIVFRUXFhgYFRgXFRcYGRoXGB0XGBcbGBkdHSghGR8lGxUZIjIhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGhAQGy0lHSUtLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tKy0tKy0tLS0tLf/AABEIAOEA4QMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAAAQQCAwUGB//EAEYQAAIBAwMCAwYCBwYDBgcAAAECEQADIQQSMUFRBSJhBgcTMnGBQpEUUqGxwdHwI2JydLLxJIKSFTSDosLhJSYzNUNTZP/EABkBAQEBAQEBAAAAAAAAAAAAAAABAgMEBf/EACERAQEAAgIDAAIDAAAAAAAAAAABAhEhMQMSQVFhBBQi/9oADAMBAAIRAxEAPwDwN6zJAN0APCksCAFXiYmQNo9eKaZbt24u3ZcdzG0gcJBG4EQqwPyU011s7woVTICLA/FOSIOWJ69ZNLFl084XawhVzw0CScySRnb/AHuIr2uXx7jTIQRAGYGABEQDgccAT9K4/jWkO7f8OZDK2YCtyGMfUn1M1X/SFclAHLMsDurwepzEmODA61Ft7ibLTXBJANwOWYLAkAQCOMk9J9JrpctzT5vi/j3x53L27c3UIYChbiqCPixBLZwQuIAjgnntU6LTtbQuD5zgKDkrmTPHMCOtXrlqJuG4FDnbBzuGGkSNwHHf7DFVNZqWD7jZJ2KVY8KZMZKz1gTPQVze6W5cRsWxuYqxOy0C7QRt7sPMPOSenpXO/TGAnaM/IYIAE+YAcMDgEGY6Voe4pTO83N3JMrsiIzmZ69hS2PNKuBtG5S2MrBAAzmeBUdJjrtu1Ny25tgBkAWHnzQdzMSomSPNwTNYaW86TcVwrDy8+YhgQYBHED7SKya44VnZVb4pPmYAtIMsV6qZPNa32yqlChGLhySc87TEEDEelGkOSEFvYuSHDR5yCIAn9XrHesl+Gzjm2kZP/ANQyF+3LD7T6VFgwWdH2FMpkhjJjyx1jJzUQyplRFzKsQC3lJB2nkZ57xRWdi86k3Q43DHmILHcCMBpnHXpisHG1NrW4LQyudwO3Ix0IJ6+lYNBgQR+secycxGMRj0rdp928sjA/C8wLQMKcQrfntoMLNgXHREOW2rLcbjjpOM/WrtyxqFu7rtprhtwpDKzLA8oBI5FV9M+5yXTcXbBkqFYsCxAGDicetbrhEBtxLEncI47ZnM0ZyuqptagMWVwcbcQPWZzxxFbGQhFVbisLsEohkhlJChxGD5jA9at3bjqQhb5ZjaR1yfMvP8K2i6HdmLtaQAkSWeD+EfUmjPvXKvJDhHU2ysK+CTzkkE8weBAxW3RFldrlsqfhS437cqDA8pOTkYE11NFrZW47W1ZZALMqs+Zk7jmcr/vmsrw8o2XHDEyJfyFf7pxme8fnU0XyfKr3L1y6ttmUP5CPkBwHcAAgYgdjWk6IH/8AG6+oJj8m/mK1+KC5vVDuJCrAkmZG5o7wWI+1c+KLjj9lXz4WSQFuJJIADMqnOBiSP21i/hN4MU2hiD+FlafUQZiM1OgsmN/XIXoAPxMT0AGPqT2qwms3f2aEyPlbq8Zj0jkD07wBC5ZS8OU6lTBBB7EQam3cKkMDBHFdK7cP/KfMAYK55gHGDI+1ZaHRpduKpUqCwkqYwTHBmovvNcsfDtegLC7lDlZG4hp49QQTIPbvVjWDbdW4bjC0dpDqTxjygde0dp+lc/UaGGIRgwnAPlaDx6HEcH7VTuqwwQRngyM/StJMJbuV6Lba/wD2Wv8Ap/8AaleZilXbP9b9uz+kWjkht23BIGHEwcfhk8Z/dWdhg5UbiYUMSZAVwBwRmZAz/KqYLt+JSXJYyRMru+Ynjk46zWD7nM7AS5kbV+shQOmeI6CjXq7HhWqdSdrAg5MnJjdu3E8EkCP8QrZ4hrU2s/wiWvcscAbYBVYM8gY9aq21ti0Bks3nhThOMMT6Cfv9Kxt6tMqpVAoLLcKktuxIHMA+kHE+lXblcJct6Rt3kNcDqgTaDuAEgYjdAiegrXbKoABc3bsMoEJ0jcWEH8sRS4l3CE7jcIMSGYwSFk8jkx3qvuGSUxEYkANEAnntMdc1HWRb1l12f4iopSyltYPmQAiByZbzE1TsIGC29sMzA/EJMBODI4gZJb0rLUIpcAMdxaGkeUZAWIyas3d1uQrBykbmMEBJ8qqG6TmPpRfmlW9aQXGCXPKvDkHJAnETyRj7Vrd3MuxncSCWhiTgnnIPGf21r4GV5gg54Egx0Inr6VmyoSApIECS/RuvE47UaYuRAG2CJkyczEY6R/GttuwrXCEcKACVa4dvGek59Km1vg3o3AeUlobLCBg9Y47QKryNpwZkQZ6ZkRH0zPSgsG67brrLv3SpZgSNxE8j8QGa0ErHXdJniIgR6zM1st2dxVEbdujnygMeRnGO9S90lgzruCwCB5RC4GV/fUFjRWWNwW0bfCswCzElcwD14B+lTvBaSIHZcdI/f/GtOjWA5Mg7VAxzuMzP0T71ZZCiAsQEfONpJ2zAHUH+jVc8u2NoQC+/aBjrJ3AyB3xiJ69prVqb52BDaADEOjEHdGRg8Ge/p9Iw1mpW5sATZtEN5iwJnmOn8axtIxYlPOLY3Z42KeYPT09ajUx1zW3RBS6qpPnXa26AAzcQe24Lmr1nUneEuQ6ghSJAELiQR6deorkreG5mODkrtgANMjH6vOB6Vfu+VHcMIYFQoOYaIkdoM/8ALRnOcszeMs4fBJZRnMnIH6pAOeD26VWt6JbjBVOwnvJUDrnkYnmfrWA1OxRbNqCCS8yCwOVwflIHBrO7i2zjIbyKY6nJB7HaCI/vetF1Z0y1qs3lQAIMAblkxxuEzPp0k9yap3NO652sI6wR+2rLPuAbvz/iHP54P/NU2VPQx3MwB9TUJlY222+Kkj5gQGA/vYn6E/tY1e9ngHv+XK2wSSOrnyg/QAtH3PWq+l12xhncvDFsyp5AB4H8h9K9b+kJbQuxCr36ekd/tWsZO3n8udn+ZO3jxo32MzqyKhMswIlSTEA/MZx9xXP1WsLgIJCAyq+vEn1qx434ib1wx8iyEH/qPqf5VzqzXpwxut3tEVNKVHXaySo3AqQYAGeGEbpn6HHrW7S21LwtwphdpIgljAYAjjk59KrpeIIM8NuzkTjJHXipsv5wT+sCfzzW2LFvVX2MIpBVfPtkQOCQwPUQBtzxGaqMTtyuWMhoIxkEDpE/urfq1BBYAhgcicRnPeeB/vWFolWLJcHkEqTgmcQoPXJok6Sl5cg7gv4eGIOOuMcmP963my8LaVgwfzBVOJyBMxmBWj4DQAVAB80mASDj6xjirKtbBYkHbPlUZCkxwTk4k8CYolZOdjPcdQTlVHABiAccmBP/ALmufcKlQZYuSd8xt9I6z3qzrvOwCPuDkkKCRBk/NOJPP3qstzJZkDCIx5QDEA4+k+tFx6Z20cklTvFsTkyNoPQN0k8R14rFXAVpSS0bWkjbB80Dgzx6VqMR1mTiBEdM95mt93cCE3BwkkbSWWPmaPTvUVrdF8u0kkjzSIAaeh6iOtZ7iGEgOLfTldoPcfhJPPrWDXASxIiZgLAAJ4x29Kx4E7uZBGZjBz0j+VFSGU7iQQeVC8DPBnMRWSswWA2H+ZQedpxuH14pfZgBbZQu2TwN3mg5PWpRVZj5tiwSJk8cDA5PeoOvpg3wtt22QEYiIMkDJGT5SA3pgVT1FoXGJtvAElQ5C4GRtIxPoY+pq74BdYK7ZMtyc5IH7cVevWLbCSgk9eP2jNb1w8mXmmGdleZuh5ZnUkmQSwPzHMz1PWtWI5zPEYjvP1nFeju+HAjaGJXnafMJ9OCD9Kp6rwws4O0KsAEW+cdRMSfrH3rOq64efDJzdQroBbaP1xwfmA6j06V0X0ouraCQgbnc4JGwQPXOYx2rV4Vo7gb4oG3Z1IjJxwfrn+iLQuIkkus9SSC35DgegpDPPXSsugdjvvFiexmTGBLdMDjn6VcB8uwQFPAxtB6Y4qu3iaDgsfoI/aSD+ytVzxk9EB/xHd/Crw568mV6YgoobcrLkYX9YcwDxjnPbHFabmsU/hMDgbgB+UfxrDXaw3SpKqsCPL19T6/yqsKzXomH5WG1fZF/8x/jFNbrnulS0eVQoAwAB1jvVZqhajUxnaaUoKKUpSg2Oc8R6dvzq1ZUbMqCSZBO6YGIEes/lWvT2ySDIIXzffqM4JxXQv8AmWFxAlTEGOD9Bjp65rbnlfiWVQzEqDElgCT5es5xzEVULAE7QF7RzH1OawvmFg4J2gj0AE/tj8qlxHUHpI4MYxUSTSJrG/cwF9dx756T9B+2pUTiq91pJP8AUdKNYxlcZSWMFR+FRntgk+k1kA0BVad5HlBPMkCR3/nWt0KxIiQCPUHity2g7Nt8oglQZPHSfzo0w3jcNy4AghfLwI/OeaxCjbO7zTG2DxHM8fas2tuqgSIfoCDO0449TWJIJUFdoEBo55yYPX+VREMSBt6HzdOvrz9qCCf1R+fT+J/fRTBLK0bTIzB5xHrWJkDK88Eg9J4/rpRWyyrAG4CAB5TkT5geh9KwkREZnmenaKlUDFQpiYBLQAD9e3FZK5DAkbwmI5EDET2oOn4OFBYK26QhOIhvNIz9RmuurdTxx9e1cXwW3lrhEA4A75n8hEVHi+tc4DQhBHlIzBgz1Gcfatb4ePPxe/krp3tciAywkfhmSf3VzdT4y8eVdgPBIknpjp++uWSIUAR3MkznmOkClwQSAZA4Pf7Utrth/HwxZ6i7uglnZs7txkTONvpFYFiQBPHHp1/eawqay76RShqKipoKigoiWrEVkaxFFiaUpQTSopRHXa1+GNoAG37yWnqelCipkncRwJj+hWF/VwYWGOW7gRzP2FVUviAGBy0kz0PYfnWtuMlqxq5JBZcr04lDkZ9J/Yar2MrE53faDGf2VvTAO1vp3I5/h+ZrAQGyojaQQMQRnMfSjQx2hiIMeWeRmR+6aqyMCI7n0+npW26AdqznrOAJiM/StLkzkz0n6YFRqM0X5mDAbfWCQcYH05rNXKhcQZ3A9YHy/aZrWlkkgcSeTj/et4YK24MMYGJxwMGOlNjN1AYlW2rG4T3wY+vb7VqiQWiJkScieTB5B/PmtgZSkbZIOCT94gd8/kKwSWICxx2A6Scmm0aXSAMEevK/YistrTjzhM9xtB7Hp/OrdrWtkkkkieYH6vH5Y9KhrgInE9RH8Yj7enNDdUiwMkjJyIgCZ7dqs6LTF+vlPzRPTgH61sWwGbZAEZPQgGOuQenWujtVBjyqKSMeTyamp2w11/4aADB4AHT1+w/eK4uwEnacCSN0AwP4+lbvErhLmePw/Tv96qUta8eHrGTMSSTknJqKipqOhSoqaCKUpRSlKUQNRQ1FFjKopSgmlRSiLToDJzu7dz1qLKuzBVHxDG1QBundgBV5JluAOazBJ7GTPqf411vY9Z8Q0hiD+k2vp84/bVtZjRY8F1alZ0WqgfN/w90z/wCWB2qldi2xD7htMMCpBEQcgxFfTPeP7Za/S+JXrdjUslpRa2pstMJZFY/MpJ69etVvfQUvaTw/VuoS/esnfAgkG2jwRzCs2O281iZXg1HkfaX2cu6M2zfVR8ZC1rzjhdvMDHzLya4zAgAj77Rx2yOa+ke+4nb4aBObD47n+wj99ed8B93mv1lsai3aS3bYTbL3Nm7iCognae5iekiky45XTy9kxLETiB9Twf31hXX9oPA9VonFjU29rMNwzuVhMSrDn94kTFdH2e9gtdrbfxrVnbbPyu7hQ0YO0HzESOePWruDney/gd7W3jZsKrOENyGbaIUr1+rAfeubqrRV2UiCrMpA4DKSGH2INfTPdJ4Rc0vjFyzegXU09wMoIMS1hgZBI4I/OvG2vZ/UazWaizp7RuN8S65yqgLvMyzEAcx9qm+RxlYyqzIMYHciPzzWSAFoIj6Z4FXvDPZ3U6nUXLGnTfdRiG2usABtpO+dsDvOek11/aL2O1fh9r4t9Ehzt3K6tDEExGD0OYjFa3GcmHjfgV7w8W1vqN1xSyhWDSOvHAzXEuuSPvMenaOPvz9K+t+9D2c1Wtv6VdNaLhbB3sSFRZIjcx+hwJPpXzj2l9l9VoSo1KBQ/wAjK29TtiRI4IxgxUmW4z66rg6l9wBgCMY7f0P21VJr23gnsDrdZZ+Natr8NgQjtcRd0EjiScMOoHFed9pfZzU6F/haq1sLAlSCGVlGCVYcxPGCJGM03HTHpq8S8G1GnVGv2Llpbgm2XEBhg4/MY5zVEmvW+3ep8SNrS/8AaEfD2M2nj4eVATczbCTMFeY5+ta7fu68Ta6LQ0pkoH3b02BWJAJfdE+U+X5vSpL+VeWpXb9p/ZPV+HlRqbYUPOx1YMhI5Ejgx0IHpNcOqJpWNKomlKUA1AoaCippSooFKUojYYB6iB+2u77EIf0/R5x+kWiAPV15rjMuZ57deK7fsWf+P0h76m1/rWal6R9H9u/HPDLXiLrqfDmvXV+HuufEMEFFI/syYMCBB7VwvfBp/jWbHiNu89zTX0CW0ZVBs4LhUAAwdpBnMqBJER2/b/3favWa+7qLRsC06oAXukEbUVSSAp6iuF7ytdZsaDSeFWb63Xsee7cXKhlVxAiclnJjMACeaxj80Lvvl04uHwtC23dZZZ6+Y6cY7c1X9+d9/wBKsaZZFq3YVlUcBizrMDsqAVt99V8qPDGWCy2XZZ/WX4BH2mur7eezl7xY6fX6DZcVrIR1NwKVIJYAziRvYEcgipONDl+2s6nwDw+85PxFuC2GOWIi6nmJzn4akk9RT3233tNo9HbYrZSwCEBgEg7FkdYCY+pqt7znGk8O0HhQdWvWou3tpkKwV8fd7jEei12vbbwC543b0mu0DW3i1suKXCspkNE9CrFgQY6Unyq4XuQct4oxPP6LcBltxMNZHJz0rue07f8AYuhZLOdRrrtxrl4cKhJbardwrwPq7VzfdJ4Zc0njN3T3gouJpn3EGRJaw2GxPzZ9RV/2a1tvxSzrPCL7Rct3LtzSu3I2u3H+BjHqjx0NW97RS9hmOm8D8R1NslbrObYccgQiqR2g3WNfOrt9ypO4sBLZJInuQfUnNfTPYW2b+k8R8HustvUlmNsPjzAKPvD2wTHRga8b7S+xWs0Nj4moVFDNsXa4YkwT06QDVl5S9Pc++zxO8n6LZS6622tFmVW2hiCoG6MnnjiqXtTeL+zmhdyWYXgASZOPjqM/QR9qx9+twC7o+v8AYP8AvStPtG0+zGizn4/8dRUnUNPO+CexniGrsi+GW1YnyPfvm2nJzbGYEzmBPrXq/fBYdPCvDRduLduL5GuK28MRa8xDfiBKgz1qz7U+zd7xbReG3NCbbWbVjY6NcCi2222MjiV2sp6j1mqXvX0y2vCPDbK3Uui2fh70MqxS2yMV9JU03uxpp993/dvC/wDLXP8ATp6v+/DxS8g0dlLrpbeyzOqsVDFdgG6MkQTg4rn++0/8N4X/AJa5/p09Z+/Y/wBpoP8ALv8Avt0nwZ+011rnszonclmF8AMxkwPjoMn+7ivllfUPHT/8r6P/ADH/AKtRXy+tYhSlK0pU1FDURFTUVNFKVFKImlRU0G232yD/AFxWwgsQoBbsAJY/QDJmsfikcHt9q6vsXjxHR9P+Is/6lpUU08JvSf8Ahbo7zYeO3O361WuiCwjrB9D/ALV9Y943t7r9H4jds2b4W0gtkIbdthlFYySu7JPeqfveCXtN4dryipfv2puAYkFEcT32liBP61ZmRp8wtqFyIB57f71stah7YhGdJySrMs/WCJr0Phfu/wDEtTbW9b0pa24DIxu2V3KcggF5z6gVxvGPCL+luNa1FprTgSQ23IPBBBIYc5BPFa3FVCYJZT655M8/erPhWg1F5iumtXXfbLfCDk7eM7ek13NB7u/E79tbqaNtpEqWe0hIOQQruGH3Arf7CXfE9Pqb6aC0ty8qlLytsO0IxXq6iQ0jBP3qW/gePZBOMwZyP4H1rK0voD0yMf1irOi0V7VXRbtW3u3nYnaoEk8k9h1kmAK7njfsXrtFZ+NqNMVtggM/xLTAFiAohXJ5I6VdpXAdZyIxHTt1qTeLGWJYxEkk4+5rv+Bexmv1iC7Y0zNbPyuzIgMfq7mBI9RiuT4p4bc095rF5Ph3UI3puUxIDDKkjKsDg9abiOWB+2gUTMCamoqtMgxAIBIDfMAcH6jr96xCjmBU0oICgcACoVQOBFTSgjaJmM96mlKKUpSoE0qKmgUpSgUpUE0E0qJpQ0znr6/au57Gf/cNH/mbX+sVxAZruexa/wDxDR/5m1/rFKj6P7wPEfB7fiVwazRai7dAtl3W4QhGxSsp8RQYECIzFcb3w6drq6XxC3e+JpLqC3YQLs+FI3RHXcFMzkFAO1dX3i+7zX63xG5fspbNphbALXQvyoqmRBPIrle87UWtP4fo/CEurdu2fNfKnCkK4j0Ja4YBzAzzXOfBx/BPZPxfUWUu2nuWrQAFlrmpa0u3p8NZkDtgA9K9P76GCXvCrl4BiFJvRncEbTs4EczLfnVr3m+ymq8UfS3dGEuaU2FCH4irbtmWJYgngqVEqCfLFUPfJpd3/ZNq2y3C1praMDKsW/R0Ug9iSM+tWXdgu+8zwXW6x18Q0F5tRp/hrtWxdbcsTJVVI3c9PNIiMVzfcExOt1JJJY2DunmfiLMzmZmZrf7ufY3xbRa5XdTY04JN8m9bNt1g/hDGTMQSBEc9+r7uL9q7434jdskG26sVI4PnQEj0LAt96m+NDi+6Rf0fTeJ60Qbtqx5D2hbjx9yq/wDTXzPVeIX7isHv3X3ZYPcdgTyCQTBzmvo3uc1KXV1/h7uFbVWSLZPUxcRwO5AdTHoe1eV8e9hNforL39RZVLSFVLC4jSWO0FQDMSeoFal5H0L2j8LveJ+HaK54XelLFoJc06XPhsGCoIwQNy7SIaOZBzn5BrluC44vfE+KDDi5u3ggAQ27OAAM9Ir3Xsx7B+MWdRZvWUNoMUY3VvJt+GYJDru3MI/DtNVffLrrV3xS4bJDbLdu3cZeDdXduz1IUqp/wx0pOLoeIpUUrYUpSilSoJ4rK3bmtriBAqJar0pSipqKUoFKUoFKUoFRU1FApSlDbOayDmZBIPQzmsSKiiNtzUuQQXcg4ILMQfqCa1jiI/LFRNRQbv0q4FNsXLgQ8oHYIZ5lZg/lWtrhMAsSBxJJj6duKNM5Ges96FCJkERzjj69qCxc19512Peusv6rXHZf+kmK1/HYGVZlx0JH7q1E1EE9JJ4oJDdesyCMQRmRW/Ua27cAV71y4BkB7juB/wBRNarlll+ZWA6SCP31iikkAZJMADqTgCg3r4jeC7BfvBIjaLr7Y7bZiKrxFKbcTGO/r/QoqQJrNTE1gKzNsgxBnGIzmCI+oI/OiIn0rF2kzEVBNSB3oNtt81g7etYGpZSMERwfsRI/YaGkVFKmOsY/r+dFRSlKBSlKCailKBSlKBSlKDKakGsamaIyqx4av9oCeElzMx5RImOhMD71VLVNpZJEnhjgTwC3HbH25ol6WfE/mV927egJImCw8jcgHlSfvXV1Crca6xxN5bVz7XQFP3T9qGuJd07qoLKwXpIxnI/P9sVAtMVLDI5bzCYBiSszyeY60Z9eO3QFldpY2gpC3fL5wPIbe0kbp/Ew5zFVtTaQMTOzyW2CgEiWRWMGcZNatUlxT5znj5wxx0MEx9DW39DlkthiXfZjbgBwCPNOYBHT91Ccc7XNgPmbO2zZIBDMMgAkhSCe33rGyih7OxPK14EMZkAXdqjmB5QJx1qgtu4oLgONuCwJEREiR2kfmKzbTXlhSrjcTjIkjJMdxzn60Nftat2kZQ/w1+S6Yl4lNm0nzT+I9a2WtKrH5cFrR2gtEtZa4QM9WEd84rlNIJBkRIIn86jee56de3FD1v5dDTWAyuzIolbkAK8g27e/mYUSV5mZNZW/+9W//A/0W655vtnzNnnJz9e9YFz3ND1q8bSfDjYJ/Rxc3S07g8d4iMRFW9YitcubkGbyJPmwrb5IzE+UZOK40nv6fapZyeSTxySeOKL6un+jqZY2gCvxoTzw2z4cTJkxvaY52/Wtl3Tb3WUM/E0ysBuwrWxuEcjj64rkm80htzSODuMj6HpQXWEwxE85Ofr3onrXRsIFexCA7nUlju5+IyxzGABUJaBXcUkj4xC+aJX4UYnoGY/bNc74hiJMTMSYnvHenxWmdxmZmTM95ovrXUSwgYTbHmuWFIJfy/EQM4Hm7k8zFcu4sEjsSKjee55nnr3+tRNFk0UqKUaTSlRQTSopQTSopQKUpQK3aW4FYk/qOPuyMo/aRWmtuns72C7kWersFUdcseKJZtYv6lSLkT5vhRj9RYaaxtsgtNDQ7Ybyn5ZHlB4zAJPpHed58H//AKdJ9tQtc2ieq74gwIDEILhZi2wyCMEEwSAZLVs0uqVAm5i+25bYDafIFYM8E94iBg81zqUPXjS7d1IFnYrLKq6fIZZWJPlPTng9qt62+qXLiq4k3rjMShKgEMpUj8U7jP2+3HpRPSNupKl22CFnyj0rVSlGilKUUpSlApSlApSlApSlApSlApSlApSlApSlApSlArO1bLGFEnJ5AwASckgDAJrCrPh/zxjKXAJIGTbcDJ9TRLdRqvWWSNwiRIIIII4wQSDkVrrq2VhVXcA6K7QrpPmZQF3GVBiW64rabqh9oKbDe1APywUxsz27dKMe7jspHPUA8g4ORxWbWGBURlgpX/m4rq6a4oUEAMQtneAyCV+ENwO4cbpmMzFU2YfEsZGFtSZ4iJntRZlar3tMyCWAiYkMrCRyCVJg+hrTNdewArw5TzX1aNysNq/EkmCQB5xz61gL02ASNxYNvyghy2CREzG2I6T60T2rlzWd22VifxKGH0Mj+Brr3pJZlIFwpKqSh2ecSqnj5eOsTWs3wVCMwKiwsjHzfEE55nbOO1F9nJmldvU3gHYgAQt0oxNtgQSuwLAiBBInPmriUWXZSlKNFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoFKUoP//Z" alt="Blockchain Basics">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">Blockchain Basics: A Non-Technical Introduction</h3>
+                        <p class="book-author">By Daniel Drescher</p>
+                        <p class="book-description">A clear explanation of blockchain technology in 25 steps, without code, math, or jargon.</p>
+                        <a href="https://www.amazon.com/Blockchain-Basics-Non-Technical-Introduction-Steps/dp/1484226038" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+                <div class="book-card animate-fadeInUp">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/51aEhyjQGrL._SX379_BO1,204,203,200_.jpg" alt="Hands-On Machine Learning">
+                    </div>
+                    <div class="book-content">
+                        <h3 class="book-title">Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow</h3>
+                        <p class="book-author">By Aurélien Géron</p>
+                        <p class="book-description">A practical approach to machine learning with Python frameworks, covering concepts and techniques with real-world examples.</p>
+                        <a href="https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646" class="book-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Book
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap-section" id="blockchain">
+            <h2 class="section-title">Blockchain Development Roadmap</h2>
+            <p class="section-description">Learn to build decentralized applications and smart contracts on blockchain platforms like Ethereum, Solana, and more.</p>
+            
+            <div class="roadmap-container">
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">1. Blockchain Fundamentals</h3>
+                    <p class="roadmap-description">Understand the core concepts of blockchain technology, including distributed ledgers, consensus mechanisms, and cryptography.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Blockchain Technology Explained</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 10 hours</span>
+                                <span><i class="fas fa-signal"></i> Beginner</span>
+                                <span><i class="fas fa-user"></i> Simplilearn</span>
+                            </div>
+                            <p class="resource-description">Comprehensive introduction to blockchain technology, covering its history, how it works, and its applications.</p>
+                            <div class="tags">
+                                <span class="tag">Blockchain</span>
+                                <span class="tag">Cryptography</span>
+                                <span class="tag">Consensus</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=qOVAbKKSH10" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Mastering Bitcoin</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Andreas M. Antonopoulos</span>
+                                <span><i class="fas fa-star"></i> 4.7/5 (700+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A comprehensive guide to the Bitcoin protocol, explaining the technical foundations of cryptocurrency and blockchain.</p>
+                            <a href="https://www.amazon.com/Mastering-Bitcoin-Programming-Open-Blockchain/dp/1491954388" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">2. Smart Contract Development</h3>
+                    <p class="roadmap-description">Learn to write, test, and deploy smart contracts using languages like Solidity for Ethereum or Rust for Solana.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Solidity, Blockchain, and Smart Contract Course</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 16 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate</span>
+                                <span><i class="fas fa-user"></i> freeCodeCamp</span>
+                            </div>
+                            <p class="resource-description">Comprehensive course on Solidity programming, smart contracts, and blockchain development on Ethereum.</p>
+                            <div class="tags">
+                                <span class="tag">Solidity</span>
+                                <span class="tag">Ethereum</span>
+                                <span class="tag">Smart Contracts</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=M576WGiDBdQ" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Mastering Ethereum</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Andreas M. Antonopoulos & Gavin Wood</span>
+                                <span><i class="fas fa-star"></i> 4.6/5 (300+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A comprehensive guide to Ethereum, smart contracts, and decentralized application development.</p>
+                            <a href="https://www.amazon.com/Mastering-Ethereum-Building-Smart-Contracts/dp/1491971940" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">3. Decentralized Application (DApp) Development</h3>
+                    <p class="roadmap-description">Learn to build full-stack decentralized applications that interact with blockchain networks and smart contracts.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Build and Deploy a Modern Web 3.0 Blockchain App</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 8 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate</span>
+                                <span><i class="fas fa-user"></i> JavaScript Mastery</span>
+                            </div>
+                            <p class="resource-description">Step-by-step guide to building a modern DApp with React, Solidity, and Web3.js, including deployment to production.</p>
+                            <div class="tags">
+                                <span class="tag">React</span>
+                                <span class="tag">Web3.js</span>
+                                <span class="tag">DApp</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=Wn_Kb3MR_cU" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Building Ethereum DApps</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Roberto Infante</span>
+                                <span><i class="fas fa-star"></i> 4.5/5 (150+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A practical guide to building decentralized applications on the Ethereum blockchain.</p>
+                            <a href="https://www.amazon.com/Building-Ethereum-DApps-Decentralized-Applications/dp/1617295248" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap-section" id="data-structures">
+            <h2 class="section-title">Data Structures & Algorithms Roadmap</h2>
+            <p class="section-description">Master the fundamental building blocks of computer science and improve your problem-solving skills.</p>
+            
+            <div class="roadmap-container">
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">1. Basic Data Structures</h3>
+                    <p class="roadmap-description">Learn fundamental data structures like arrays, linked lists, stacks, queues, and hash tables.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Data Structures Easy to Advanced Course</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 8 hours</span>
+                                <span><i class="fas fa-signal"></i> Beginner to Intermediate</span>
+                                <span><i class="fas fa-user"></i> William Fiset</span>
+                            </div>
+                            <p class="resource-description">Comprehensive course on data structures with visualizations and code examples in Java.</p>
+                            <div class="tags">
+                                <span class="tag">Arrays</span>
+                                <span class="tag">Linked Lists</span>
+                                <span class="tag">Hash Tables</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=RBSGKlAvoiM" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Grokking Algorithms</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Aditya Bhargava</span>
+                                <span><i class="fas fa-star"></i> 4.8/5 (1,200+ reviews)</span>
+                            </div>
+                            <p class="resource-description">An illustrated guide to algorithms with practical examples and clear explanations for beginners.</p>
+                            <a href="https://www.amazon.com/Grokking-Algorithms-illustrated-programmers-curious/dp/1617292230" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">2. Advanced Data Structures</h3>
+                    <p class="roadmap-description">Explore more complex data structures like trees, graphs, heaps, and advanced variations of basic structures.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Advanced Data Structures</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 10 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate to Advanced</span>
+                                <span><i class="fas fa-user"></i> MIT OpenCourseWare</span>
+                            </div>
+                            <p class="resource-description">University-level course on advanced data structures with theoretical foundations and practical implementations.</p>
+                            <div class="tags">
+                                <span class="tag">Trees</span>
+                                <span class="tag">Graphs</span>
+                                <span class="tag">Heaps</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=T0yzrZL1py0&list=PLUl4u3cNGP61hsJNdULdudlRL493b-XZf" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> The Algorithm Design Manual</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Steven S. Skiena</span>
+                                <span><i class="fas fa-star"></i> 4.7/5 (500+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A comprehensive guide to algorithm design with real-world examples and practical advice.</p>
+                            <a href="https://www.amazon.com/Algorithm-Design-Manual-Steven-Skiena/dp/1849967202" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item animate-fadeInUp">
+                    <h3 class="roadmap-title">3. Algorithm Design & Analysis</h3>
+                    <p class="roadmap-description">Learn to design efficient algorithms and analyze their time and space complexity.</p>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-graduation-cap"></i> Algorithms and Data Structures Tutorial</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-clock"></i> 12 hours</span>
+                                <span><i class="fas fa-signal"></i> Intermediate to Advanced</span>
+                                <span><i class="fas fa-user"></i> Abdul Bari</span>
+                            </div>
+                            <p class="resource-description">Comprehensive course on algorithm design and analysis with clear explanations and visualizations.</p>
+                            <div class="tags">
+                                <span class="tag">Algorithm Analysis</span>
+                                <span class="tag">Big O Notation</span>
+                                <span class="tag">Dynamic Programming</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=0IAPZzGSbME&list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch Course
+                            </a>
+                        </li>
+                        <li class="resource-item">
+                            <h4 class="resource-title"><i class="fas fa-book"></i> Algorithms (4th Edition)</h4>
+                            <div class="resource-meta">
+                                <span><i class="fas fa-user"></i> Robert Sedgewick & Kevin Wayne</span>
+                                <span><i class="fas fa-star"></i> 4.7/5 (400+ reviews)</span>
+                            </div>
+                            <p class="resource-description">A comprehensive textbook on algorithms with Java implementations and detailed explanations.</p>
+                            <a href="https://www.amazon.com/Algorithms-4th-Robert-Sedgewick/dp/032157351X" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#press">Press</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#changelog">Changelog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#guides">Guides</a></li>
+                    <li><a href="#api">API Docs</a></li>
+                    <li><a href="community.html">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#twitter" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#linkedin" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#instagram" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Intellix. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.querySelector('.nav-links');
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        // Toggle mobile menu
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Handle dropdowns on mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('a');
+            
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(other => {
+                        if (other !== dropdown) {
+                            other.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+            }
+        });
+
+        // Category Tabs
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const roadmapSections = document.querySelectorAll('.roadmap-section');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show/hide sections based on category
+                const category = tab.dataset.category;
+                
+                if (category === 'all') {
+                    roadmapSections.forEach(section => {
+                        section.style.display = 'block';
+                    });
+                } else {
+                    roadmapSections.forEach(section => {
+                        if (section.id === category) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeInUp');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.roadmap-item, .video-card, .book-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Background animation on mousemove
+        document.addEventListener('mousemove', (e) => {
+            const spots = document.querySelectorAll('.spot');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            spots.forEach((spot, index) => {
+                const factor = (index + 1) * 0.1;
+                const offsetX = (mouseX - 0.5) * 50 * factor;
+                const offsetY = (mouseY - 0.5) * 50 * factor;
+                
+                spot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

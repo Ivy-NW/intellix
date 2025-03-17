@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intellix - Smart Study Companion</title>
+    <title>Intellix - Community</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -31,6 +31,7 @@
             --spot-blur: 80px;
             --spot-opacity: 0.4;
         }
+
         @keyframes float {
             0% {
                 transform: translate(0, 0) scale(1);
@@ -72,15 +73,15 @@
         }
 
         @keyframes pulse {
-    0%, 100% {
-        opacity: var(--spot-opacity);
-        filter: blur(var(--spot-blur));
-    }
-    50% {
-        opacity: calc(var(--spot-opacity) + 0.1);
-        filter: blur(calc(var(--spot-blur) - 10px));
-    }
-}
+            0%, 100% {
+                opacity: var(--spot-opacity);
+                filter: blur(var(--spot-blur));
+            }
+            50% {
+                opacity: calc(var(--spot-opacity) + 0.1);
+                filter: blur(calc(var(--spot-blur) - 10px));
+            }
+        }
 
         body {
             background: var(--bg-color);
@@ -108,10 +109,9 @@
                 float 20s infinite,
                 pulse 8s infinite;
             opacity: var(--spot-opacity);
-            mix-blend-mode: soft-light; /* This creates a softer blend effect */
+            mix-blend-mode: soft-light;
         }
 
-        /* Updated spot positions and sizes */
         .spot:nth-child(1) {
             width: calc(var(--spot-size) * 1.2);
             height: calc(var(--spot-size) * 1.2);
@@ -148,7 +148,6 @@
             animation-delay: -15s;
         }
 
-        /* Add more spots for variety */
         .spot:nth-child(5) {
             width: calc(var(--spot-size) * 0.7);
             height: calc(var(--spot-size) * 0.7);
@@ -305,21 +304,17 @@
             align-items: center;
             gap: 0.8rem;
         }
-        /* Hero Section Styles */
-        .hero-section {
+
+        /* Page Header */
+        .page-header {
             padding: 120px 5% 60px;
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
             animation: slideIn 1s ease-out;
         }
 
-        .hero-title {
+        .page-title {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
             background: var(--primary-gradient);
@@ -328,23 +323,67 @@
             line-height: 1.2;
         }
 
-        .hero-subtitle {
+        .page-subtitle {
             font-size: 1.5rem;
             color: var(--text-color);
             opacity: 0.9;
             margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .hero-buttons {
+        /* Community Stats */
+        .stats-section {
+            padding: 20px 5% 60px;
+        }
+
+        .stats-container {
             display: flex;
-            gap: 1.5rem;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-top: 2rem;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* Feature Section Styles */
-        .features-section {
-            padding: 80px 5%;
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            max-width: 280px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        /* Community Features */
+        .community-features {
+            padding: 60px 5%;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
         }
@@ -406,60 +445,12 @@
             line-height: 1.6;
         }
 
-        /* How It Works Section */
-        .how-it-works {
+        /* Community Showcase */
+        .community-showcase {
             padding: 80px 5%;
-            position: relative;
         }
 
-        .steps-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .step-card {
-            flex: 1;
-            min-width: 280px;
-            max-width: 350px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--glass-blur));
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                8px 8px 24px var(--neumorph-shadow-dark),
-                -8px -8px 24px var(--neumorph-shadow-light);
-        }
-
-        .step-number {
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: 80px 5%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .testimonials-grid {
+        .showcase-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
@@ -467,152 +458,178 @@
             margin: 0 auto;
         }
 
-        .testimonial-card {
+        .showcase-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(var(--glass-blur));
             border-radius: 20px;
-            padding: 2rem;
-            position: relative;
+            overflow: hidden;
             border: 1px solid var(--glass-border);
             box-shadow: 
                 8px 8px 24px var(--neumorph-shadow-dark),
                 -8px -8px 24px var(--neumorph-shadow-light);
+            transition: transform 0.3s ease;
         }
 
-        .testimonial-quote {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+        .showcase-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .showcase-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .showcase-content {
+            padding: 1.5rem;
+        }
+
+        .showcase-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
             color: var(--text-color);
-            font-style: italic;
         }
 
-        .testimonial-author {
+        .showcase-author {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid transparent;
-            background: var(--primary-gradient);
-            padding: 2px;
         }
 
-        .author-info h4 {
+        .author-name {
+            font-weight: 500;
             color: var(--text-color);
-            margin-bottom: 0.2rem;
         }
 
-        .author-info p {
+        .showcase-description {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Community Events */
+        .community-events {
+            padding: 80px 5%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .events-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                8px 8px 24px var(--neumorph-shadow-dark),
+                -8px -8px 24px var(--neumorph-shadow-light);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-date {
+            flex: 0 0 100px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .event-day {
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .event-month {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .event-details {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
             color: var(--text-color);
             opacity: 0.8;
             font-size: 0.9rem;
         }
 
-        /* Pricing Section */
-        .pricing {
-            padding: 80px 5%;
-        }
-
-        .pricing-grid {
-            display: flex;
-            flex-direction: row;  /* Make cards appear in a row */
-            justify-content: center;
-            gap: 2rem;
-            max-width: 1400px;  /* Increased max-width to accommodate all cards */
-            margin: 0 auto;
-        }
-
-        .pricing-card {
-            flex: 1;  /* Make cards take equal width */
-            min-width: 280px;  /* Minimum width for each card */
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--glass-blur));
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            border: 1px solid var(--glass-border);
-            transition: transform 0.3s ease;
-            box-shadow: 
-                10px 10px 30px var(--neumorph-shadow-dark),
-                -10px -10px 30px var(--neumorph-shadow-light);
-        }
-
-        .pricing-card.popular {
-            transform: scale(1.05);
-            border: 2px solid transparent;
-            background: 
-                linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,
-                var(--primary-gradient) border-box;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .pricing-header {
-            margin-bottom: 2rem;
-        }
-
-        .pricing-title {
-            font-size: 1.8rem;
+        .event-description {
             color: var(--text-color);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .pricing-price {
-            font-size: 3rem;
-            font-weight: bold;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 1rem 0;
+        .event-actions {
+            display: flex;
+            gap: 1rem;
         }
 
-        .pricing-period {
-            font-size: 1rem;
-            opacity: 0.8;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin: 2rem 0;
-            text-align: left;
-        }
-
-        .pricing-features li {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .pricing-features li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--pastel-blue);
-        }
-        /* CTA Section Styles */
-        .cta-section {
+        /* Join Community Section */
+        .join-section {
             padding: 100px 5%;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .cta-content {
+        .join-content {
             max-width: 800px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        .cta-title {
+        .join-title {
             font-size: 2.8rem;
             margin-bottom: 1.5rem;
             background: var(--primary-gradient);
@@ -620,11 +637,39 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .cta-description {
+        .join-description {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             color: var(--text-color);
             opacity: 0.9;
+        }
+
+        .join-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .join-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .join-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .join-input:focus {
+            outline: none;
+            border-color: var(--pastel-blue);
         }
 
         /* Button Styles */
@@ -762,83 +807,38 @@
 
         /* Responsive Design */
         @media screen and (max-width: 968px) {
-            .hero-title {
+            .page-title {
                 font-size: 2.8rem;
             }
 
-            .hero-subtitle {
+            .page-subtitle {
                 font-size: 1.3rem;
             }
 
-            .section-title {
-                font-size: 2rem;
+            .join-form {
+                flex-direction: column;
             }
 
-            .pricing-card.popular {
-                transform: scale(1);
-            }
-
-            .hero-buttons {
+            .event-card {
                 flex-direction: column;
                 gap: 1rem;
             }
 
-            .btn {
-                width: 100%;
-            }
-            .pricing-grid {
-                flex-direction: column;  /* Stack cards on mobile */
-                align-items: center;
-            }
-
-            .pricing-card {
-                width: 100%;
-                max-width: 500px;
-            }
-
-            .pricing-card.popular {
-                transform: scale(1);  /* Remove scaling on mobile */
+            .event-date {
+                flex: 0 0 auto;
+                width: 100px;
+                margin: 0 auto;
             }
         }
 
-        @media screen and (max-width: 768px) {
-            .hero-title {
-                font-size: 2.3rem;
-            }
-
-            .feature-card, .step-card, .testimonial-card, .pricing-card {
-                padding: 1.5rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
-        }
-        @media screen and (max-width: 1024px) {
-            .pricing-grid {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .pricing-card {
-                width: 100%;
-                max-width: 400px;
-            }
-        }
-                /* Mobile Menu Styles */
         @media screen and (max-width: 768px) {
             #menuBtn {
-                display: block; /* Show hamburger menu on mobile */
+                display: block;
             }
 
             .nav-links {
                 position: fixed;
-                top: 70px; /* Adjust based on your header height */
+                top: 70px;
                 left: -100%;
                 width: 100%;
                 height: calc(100vh - 70px);
@@ -879,16 +879,30 @@
                 display: block;
             }
 
-            .nav {
-                padding: 1rem;
+            .page-title {
+                font-size: 2.3rem;
             }
 
-            .logo {
-                font-size: 1.8rem;
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
             }
         }
 
-        /* Tablet Styles */
         @media screen and (min-width: 769px) and (max-width: 1024px) {
             .nav {
                 padding: 1rem 2rem;
@@ -917,7 +931,7 @@
 
     <header class="header">
         <nav class="nav">
-            <a href="#" class="logo">Intellix</a>
+            <a href="index.html" class="logo">Intellix</a>
             <button id="menuBtn" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
@@ -962,9 +976,9 @@
                         </a>
                     </div>
                 </div>
-                <a href="/resources.html"><i class="fas fa-archive"></i> Resources</a>
-                <a href="/community.html"><i class="fas fa-users"></i> Community</a>
-                <a href="/pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+                <a href="#resources"><i class="fas fa-archive"></i> Resources</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+                <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
                 <a href="#login" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i>
                     Login
@@ -972,110 +986,192 @@
             </div>
         </nav>
     </header>
+
     <main>
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">Transform Your Learning Journey with AI</h1>
-                <p class="hero-subtitle">Harness the power of artificial intelligence to study smarter, not harder. Create personalized study plans, generate quizzes, and master any subject.</p>
-                <div class="hero-buttons">
-                    <a href="#get-started" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i>
-                        Get Started Free
-                    </a>
-                    <a href="#demo" class="btn btn-secondary">
-                        <i class="fas fa-play"></i>
-                        Watch Demo
-                    </a>
+        <section class="page-header">
+            <h1 class="page-title">Join Our Learning Community</h1>
+            <p class="page-subtitle">Connect with fellow learners, share resources, participate in events, and enhance your learning journey together.</p>
+        </section>
+
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-card animate-fadeInUp">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-card animate-fadeInUp">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Study Groups</div>
+                </div>
+                <div class="stat-card animate-fadeInUp">
+                    <div class="stat-number">5K+</div>
+                    <div class="stat-label">Shared Resources</div>
+                </div>
+                <div class="stat-card animate-fadeInUp">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Monthly Events</div>
                 </div>
             </div>
         </section>
 
-        <section class="features-section">
-            <h2 class="section-title">Revolutionary Features</h2>
+        <section class="community-features">
+            <h2 class="section-title">Community Features</h2>
             <div class="features-grid">
                 <div class="feature-card animate-fadeInUp">
-                    <i class="fas fa-brain feature-icon"></i>
-                    <h3 class="feature-title">AI Study Assistant</h3>
-                    <p class="feature-description">Get instant answers to your questions and receive personalized explanations tailored to your learning style.</p>
+                    <i class="fas fa-users feature-icon"></i>
+                    <h3 class="feature-title">Study Groups</h3>
+                    <p class="feature-description">Join or create study groups based on subjects, courses, or interests. Collaborate with peers who share your learning goals.</p>
                 </div>
                 <div class="feature-card animate-fadeInUp">
-                    <i class="fas fa-magic feature-icon"></i>
-                    <h3 class="feature-title">Smart Summarization</h3>
-                    <p class="feature-description">Transform lengthy content into concise, easy-to-understand summaries with our AI-powered tools.</p>
+                    <i class="fas fa-comments feature-icon"></i>
+                    <h3 class="feature-title">Discussion Forums</h3>
+                    <p class="feature-description">Engage in meaningful discussions, ask questions, and share insights with a community of passionate learners.</p>
                 </div>
                 <div class="feature-card animate-fadeInUp">
-                    <i class="fas fa-chart-line feature-icon"></i>
-                    <h3 class="feature-title">Progress Tracking</h3>
-                    <p class="feature-description">Monitor your learning progress with detailed analytics and personalized insights.</p>
+                    <i class="fas fa-share-alt feature-icon"></i>
+                    <h3 class="feature-title">Resource Sharing</h3>
+                    <p class="feature-description">Share and discover study materials, notes, flashcards, and other learning resources created by the community.</p>
+                </div>
+                <div class="feature-card animate-fadeInUp">
+                    <i class="fas fa-calendar-alt feature-icon"></i>
+                    <h3 class="feature-title">Events & Webinars</h3>
+                    <p class="feature-description">Participate in virtual study sessions, expert webinars, and community challenges to enhance your learning.</p>
+                </div>
+                <div class="feature-card animate-fadeInUp">
+                    <i class="fas fa-medal feature-icon"></i>
+                    <h3 class="feature-title">Achievement System</h3>
+                    <p class="feature-description">Earn badges, points, and recognition for your contributions and learning milestones within the community.</p>
+                </div>
+                <div class="feature-card animate-fadeInUp">
+                    <i class="fas fa-hands-helping feature-icon"></i>
+                    <h3 class="feature-title">Peer Mentoring</h3>
+                    <p class="feature-description">Connect with mentors or become one yourself. Share knowledge and guide others in their learning journey.</p>
                 </div>
             </div>
         </section>
 
-        <section class="how-it-works">
-            <h2 class="section-title">How It Works</h2>
-            <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Sign Up</h3>
-                    <p>Create your free account and tell us about your learning goals.</p>
+        <section class="community-showcase">
+            <h2 class="section-title">Community Showcase</h2>
+            <div class="showcase-grid">
+                <div class="showcase-card animate-fadeInUp">
+                    <img src="https://source.unsplash.com/random/600x400/?study" alt="Study Notes" class="showcase-image">
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">Advanced Biology Study Guide</h3>
+                        <div class="showcase-author">
+                            <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Emma L." class="author-avatar">
+                            <span class="author-name">Emma L.</span>
+                        </div>
+                        <p class="showcase-description">A comprehensive study guide for advanced biology concepts with visual aids and memory techniques.</p>
+                        <div class="showcase-meta">
+                            <span class="meta-item"><i class="fas fa-heart"></i> 245</span>
+                            <span class="meta-item"><i class="fas fa-download"></i> 1.2k</span>
+                            <span class="meta-item"><i class="fas fa-comment"></i> 56</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Choose Your Tools</h3>
-                    <p>Select from our suite of AI-powered study tools and features.</p>
+                <div class="showcase-card animate-fadeInUp">
+                    <img src="https://source.unsplash.com/random/600x400/?mathematics" alt="Math Formulas" class="showcase-image">
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">Calculus Formula Collection</h3>
+                        <div class="showcase-author">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David K." class="author-avatar">
+                            <span class="author-name">David K.</span>
+                        </div>
+                        <p class="showcase-description">An organized collection of calculus formulas with examples and practical applications.</p>
+                        <div class="showcase-meta">
+                            <span class="meta-item"><i class="fas fa-heart"></i> 189</span>
+                            <span class="meta-item"><i class="fas fa-download"></i> 876</span>
+                            <span class="meta-item"><i class="fas fa-comment"></i> 42</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>Start Learning</h3>
-                    <p>Begin your enhanced learning journey with personalized support.</p>
+                <div class="showcase-card animate-fadeInUp">
+                    <img src="https://source.unsplash.com/random/600x400/?history" alt="History Timeline" class="showcase-image">
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">World History Interactive Timeline</h3>
+                        <div class="showcase-author">
+                            <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Sophia R." class="author-avatar">
+                            <span class="author-name">Sophia R.</span>
+                        </div>
+                        <p class="showcase-description">A visual timeline of major world history events with connections and cause-effect relationships.</p>
+                        <div class="showcase-meta">
+                            <span class="meta-item"><i class="fas fa-heart"></i> 312</span>
+                            <span class="meta-item"><i class="fas fa-download"></i> 1.5k</span>
+                            <span class="meta-item"><i class="fas fa-comment"></i> 78</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="testimonials">
-            <h2 class="section-title">What Our Users Say</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"Intellix has completely transformed how I study. The AI assistant feels like having a personal tutor available 24/7."</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Sarah M." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Sarah M.</h4>
-                            <p>Medical Student</p>
+        <section class="community-events">
+            <h2 class="section-title">Upcoming Community Events</h2>
+            <div class="events-container">
+                <div class="event-card animate-fadeInUp">
+                    <div class="event-date">
+                        <div class="event-day">15</div>
+                        <div class="event-month">Apr</div>
+                    </div>
+                    <div class="event-details">
+                        <h3 class="event-title">Effective Study Techniques Webinar</h3>
+                        <div class="event-meta">
+                            <span><i class="fas fa-clock"></i> 7:00 PM - 8:30 PM EST</span>
+                            <span><i class="fas fa-video"></i> Virtual</span>
+                        </div>
+                        <p class="event-description">Join Dr. Lisa Chen, cognitive psychologist, as she shares evidence-based study techniques to improve retention and understanding. Learn how to optimize your study sessions and prepare effectively for exams.</p>
+                        <div class="event-actions">
+                            <a href="#register" class="btn btn-primary">Register</a>
+                            <a href="#calendar" class="btn btn-secondary">Add to Calendar</a>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"The smart summarization feature saves me hours of reading time. It's like having a study superpower!"</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="James K." class="author-avatar">
-                        <div class="author-info">
-                            <h4>James K.</h4>
-                            <p>Graduate Student</p>
+                <div class="event-card animate-fadeInUp">
+                    <div class="event-date">
+                        <div class="event-day">22</div>
+                        <div class="event-month">Apr</div>
+                    </div>
+                    <div class="event-details">
+                        <h3 class="event-title">Group Study Session: Advanced Mathematics</h3>
+                        <div class="event-meta">
+                            <span><i class="fas fa-clock"></i> 6:00 PM - 8:00 PM EST</span>
+                            <span><i class="fas fa-video"></i> Virtual</span>
+                        </div>
+                        <p class="event-description">Join fellow math enthusiasts for a collaborative study session focused on advanced calculus and linear algebra. Bring your questions and challenges to solve together with peers and a mathematics graduate student moderator.</p>
+                        <div class="event-actions">
+                            <a href="#join" class="btn btn-primary">Join Session</a>
+                            <a href="#calendar" class="btn btn-secondary">Add to Calendar</a>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"As a teacher, I love how Intellix helps me create engaging study materials for my students in minutes."</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Emily R." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Emily R.</h4>
-                            <p>High School Teacher</p>
+                <div class="event-card animate-fadeInUp">
+                    <div class="event-date">
+                        <div class="event-day">29</div>
+                        <div class="event-month">Apr</div>
+                    </div>
+                    <div class="event-details">
+                        <h3 class="event-title">AI in Education: Future Trends Panel Discussion</h3>
+                        <div class="event-meta">
+                            <span><i class="fas fa-clock"></i> 5:00 PM - 6:30 PM EST</span>
+                            <span><i class="fas fa-video"></i> Virtual</span>
+                        </div>
+                        <p class="event-description">Explore the future of AI in education with our panel of experts from EdTech companies and academic institutions. Discover how AI is transforming learning experiences and what skills will be essential in the coming years.</p>
+                        <div class="event-actions">
+                            <a href="#register" class="btn btn-primary">Register</a>
+                            <a href="#calendar" class="btn btn-secondary">Add to Calendar</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="cta-section">
-            <div class="cta-content">
-                <h2 class="cta-title">Ready to Transform Your Learning?</h2>
-                <p class="cta-description">Join thousands of students who are already experiencing the future of learning with Intellix.</p>
-                <div class="cta-buttons">
-                    <a href="#get-started" class="btn btn-primary">Start Free Trial</a>
-                    <a href="#learn-more" class="btn btn-secondary">Learn More</a>
-                </div>
+        <section class="join-section">
+            <div class="join-content">
+                <h2 class="join-title">Ready to Join Our Community?</h2>
+                <p class="join-description">Subscribe to our newsletter to stay updated on community events, new resources, and learning opportunities.</p>
+                <form class="join-form">
+                    <input type="email" placeholder="Your email address" class="join-input" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
             </div>
         </section>
     </main>
@@ -1095,7 +1191,7 @@
                 <h3>Product</h3>
                 <ul class="footer-links">
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
                     <li><a href="#roadmap">Roadmap</a></li>
                     <li><a href="#changelog">Changelog</a></li>
                 </ul>
@@ -1106,7 +1202,7 @@
                     <li><a href="#help">Help Center</a></li>
                     <li><a href="#guides">Guides</a></li>
                     <li><a href="#api">API Docs</a></li>
-                    <li><a href="#community">Community</a></li>
+                    <li><a href="community.html">Community</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -1165,16 +1261,6 @@
             }
         });
 
-        // Close mobile menu when window is resized above mobile breakpoint
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                navLinks.classList.remove('active');
-                menuBtn.querySelector('i').classList.remove('fa-times');
-                menuBtn.querySelector('i').classList.add('fa-bars');
-                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-            }
-        });
-
         // Intersection Observer for Animations
         const observerOptions = {
             threshold: 0.1,
@@ -1191,38 +1277,24 @@
         }, observerOptions);
 
         // Observe all cards and sections
-        document.querySelectorAll('.feature-card, .step-card, .testimonial-card, .pricing-card').forEach(el => {
+        document.querySelectorAll('.feature-card, .stat-card, .showcase-card, .event-card').forEach(el => {
             observer.observe(el);
         });
 
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // Background animation on mousemove
+        document.addEventListener('mousemove', (e) => {
+            const spots = document.querySelectorAll('.spot');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            spots.forEach((spot, index) => {
+                const factor = (index + 1) * 0.1;
+                const offsetX = (mouseX - 0.5) * 50 * factor;
+                const offsetY = (mouseY - 0.5) * 50 * factor;
+                
+                spot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
             });
         });
-
-                    // Add this to your existing JavaScript
-            document.addEventListener('mousemove', (e) => {
-                const spots = document.querySelectorAll('.spot');
-                const mouseX = e.clientX / window.innerWidth;
-                const mouseY = e.clientY / window.innerHeight;
-
-                spots.forEach((spot, index) => {
-                    const factor = (index + 1) * 0.1;
-                    const offsetX = (mouseX - 0.5) * 50 * factor;
-                    const offsetY = (mouseY - 0.5) * 50 * factor;
-                    
-                    spot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-                });
-            });
     </script>
 </body>
 </html>
