@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intellix - Smart Study Companion</title>
+    <title>Intellix - Pricing Plans</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -31,6 +31,7 @@
             --spot-blur: 80px;
             --spot-opacity: 0.4;
         }
+
         @keyframes float {
             0% {
                 transform: translate(0, 0) scale(1);
@@ -72,15 +73,15 @@
         }
 
         @keyframes pulse {
-    0%, 100% {
-        opacity: var(--spot-opacity);
-        filter: blur(var(--spot-blur));
-    }
-    50% {
-        opacity: calc(var(--spot-opacity) + 0.1);
-        filter: blur(calc(var(--spot-blur) - 10px));
-    }
-}
+            0%, 100% {
+                opacity: var(--spot-opacity);
+                filter: blur(var(--spot-blur));
+            }
+            50% {
+                opacity: calc(var(--spot-opacity) + 0.1);
+                filter: blur(calc(var(--spot-blur) - 10px));
+            }
+        }
 
         body {
             background: var(--bg-color);
@@ -108,10 +109,9 @@
                 float 20s infinite,
                 pulse 8s infinite;
             opacity: var(--spot-opacity);
-            mix-blend-mode: soft-light; /* This creates a softer blend effect */
+            mix-blend-mode: soft-light;
         }
 
-        /* Updated spot positions and sizes */
         .spot:nth-child(1) {
             width: calc(var(--spot-size) * 1.2);
             height: calc(var(--spot-size) * 1.2);
@@ -148,7 +148,6 @@
             animation-delay: -15s;
         }
 
-        /* Add more spots for variety */
         .spot:nth-child(5) {
             width: calc(var(--spot-size) * 0.7);
             height: calc(var(--spot-size) * 0.7);
@@ -305,21 +304,17 @@
             align-items: center;
             gap: 0.8rem;
         }
-        /* Hero Section Styles */
-        .hero-section {
+
+        /* Page Header */
+        .page-header {
             padding: 120px 5% 60px;
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
             animation: slideIn 1s ease-out;
         }
 
-        .hero-title {
+        .page-title {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
             background: var(--primary-gradient);
@@ -328,219 +323,101 @@
             line-height: 1.2;
         }
 
-        .hero-subtitle {
+        .page-subtitle {
             font-size: 1.5rem;
             color: var(--text-color);
             opacity: 0.9;
             margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .hero-buttons {
+        /* Pricing Section Styles */
+        .pricing-section {
+            padding: 40px 5% 80px;
+        }
+
+        .pricing-toggle {
             display: flex;
-            gap: 1.5rem;
             justify-content: center;
-            margin-top: 2rem;
+            align-items: center;
+            margin-bottom: 50px;
+            gap: 20px;
         }
 
-        /* Feature Section Styles */
-        .features-section {
-            padding: 80px 5%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--glass-blur));
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                10px 10px 30px var(--neumorph-shadow-dark),
-                -10px -10px 30px var(--neumorph-shadow-light);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 
-                15px 15px 45px var(--neumorph-shadow-dark),
-                -15px -15px 45px var(--neumorph-shadow-light);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            background: var(--secondary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .toggle-label {
+            font-size: 1.2rem;
+            font-weight: 500;
             color: var(--text-color);
         }
 
-        .feature-description {
-            color: var(--text-color);
-            opacity: 0.8;
-            line-height: 1.6;
-        }
-
-        /* How It Works Section */
-        .how-it-works {
-            padding: 80px 5%;
+        .toggle-switch {
             position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
         }
 
-        .steps-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
-        .step-card {
-            flex: 1;
-            min-width: 280px;
-            max-width: 350px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--glass-blur));
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                8px 8px 24px var(--neumorph-shadow-dark),
-                -8px -8px 24px var(--neumorph-shadow-light);
-        }
-
-        .step-number {
+        .toggle-slider {
             position: absolute;
-            top: -20px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: var(--primary-gradient);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Testimonials Section */
-        .testimonials {
-            padding: 80px 5%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--glass-blur));
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                8px 8px 24px var(--neumorph-shadow-dark),
-                -8px -8px 24px var(--neumorph-shadow-light);
-        }
-
-        .testimonial-quote {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid transparent;
-            background: var(--primary-gradient);
-            padding: 2px;
-        }
-
-        .author-info h4 {
-            color: var(--text-color);
-            margin-bottom: 0.2rem;
-        }
-
-        .author-info p {
-            color: var(--text-color);
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 80px 5%;
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
         }
 
         .pricing-grid {
             display: flex;
-            flex-direction: row;  /* Make cards appear in a row */
+            flex-wrap: wrap;
             justify-content: center;
             gap: 2rem;
-            max-width: 1400px;  /* Increased max-width to accommodate all cards */
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .pricing-card {
-            flex: 1;  /* Make cards take equal width */
-            min-width: 280px;  /* Minimum width for each card */
-            max-width: 400px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 380px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(var(--glass-blur));
             border-radius: 20px;
             padding: 2.5rem;
             text-align: center;
             border: 1px solid var(--glass-border);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 
                 10px 10px 30px var(--neumorph-shadow-dark),
                 -10px -10px 30px var(--neumorph-shadow-light);
+            position: relative;
+            overflow: hidden;
         }
 
         .pricing-card.popular {
@@ -551,8 +428,28 @@
                 var(--primary-gradient) border-box;
         }
 
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 8px 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
         .pricing-card:hover {
             transform: translateY(-10px);
+            box-shadow: 
+                15px 15px 45px var(--neumorph-shadow-dark),
+                -15px -15px 45px var(--neumorph-shadow-light);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
         }
 
         .pricing-header {
@@ -597,7 +494,187 @@
             left: 0;
             color: var(--pastel-blue);
         }
-        /* CTA Section Styles */
+
+        .pricing-features li.unavailable {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .pricing-features li.unavailable::before {
+            content: "✕";
+            color: var(--pastel-pink);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                8px 8px 20px var(--neumorph-shadow-dark),
+                -8px -8px 20px var(--neumorph-shadow-light);
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 60px 5% 80px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .comparison-table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                10px 10px 30px var(--neumorph-shadow-dark),
+                -10px -10px 30px var(--neumorph-shadow-light);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+        }
+
+        .check-icon {
+            color: var(--pastel-blue);
+            font-size: 1.2rem;
+        }
+
+        .x-icon {
+            color: var(--pastel-pink);
+            font-size: 1.2rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 5%;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                5px 5px 15px var(--neumorph-shadow-dark),
+                -5px -5px 15px var(--neumorph-shadow-light);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* CTA Section */
         .cta-section {
             padding: 100px 5%;
             text-align: center;
@@ -627,42 +704,10 @@
             opacity: 0.9;
         }
 
-        /* Button Styles */
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
             justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            box-shadow: 
-                5px 5px 15px var(--neumorph-shadow-dark),
-                -5px -5px 15px var(--neumorph-shadow-light);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                8px 8px 20px var(--neumorph-shadow-dark),
-                -8px -8px 20px var(--neumorph-shadow-light);
         }
 
         /* Footer Styles */
@@ -762,83 +807,38 @@
 
         /* Responsive Design */
         @media screen and (max-width: 968px) {
-            .hero-title {
+            .page-title {
                 font-size: 2.8rem;
             }
 
-            .hero-subtitle {
+            .page-subtitle {
                 font-size: 1.3rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
             }
 
             .pricing-card.popular {
                 transform: scale(1);
             }
 
-            .hero-buttons {
+            .cta-buttons {
                 flex-direction: column;
+                align-items: center;
                 gap: 1rem;
             }
 
-            .btn {
+            .cta-buttons .btn {
                 width: 100%;
-            }
-            .pricing-grid {
-                flex-direction: column;  /* Stack cards on mobile */
-                align-items: center;
-            }
-
-            .pricing-card {
-                width: 100%;
-                max-width: 500px;
-            }
-
-            .pricing-card.popular {
-                transform: scale(1);  /* Remove scaling on mobile */
+                max-width: 300px;
             }
         }
 
-        @media screen and (max-width: 768px) {
-            .hero-title {
-                font-size: 2.3rem;
-            }
-
-            .feature-card, .step-card, .testimonial-card, .pricing-card {
-                padding: 1.5rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
-        }
-        @media screen and (max-width: 1024px) {
-            .pricing-grid {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .pricing-card {
-                width: 100%;
-                max-width: 400px;
-            }
-        }
-                /* Mobile Menu Styles */
         @media screen and (max-width: 768px) {
             #menuBtn {
-                display: block; /* Show hamburger menu on mobile */
+                display: block;
             }
 
             .nav-links {
                 position: fixed;
-                top: 70px; /* Adjust based on your header height */
+                top: 70px;
                 left: -100%;
                 width: 100%;
                 height: calc(100vh - 70px);
@@ -879,28 +879,48 @@
                 display: block;
             }
 
-            .nav {
+            .page-title {
+                font-size: 2.3rem;
+            }
+
+            .pricing-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .comparison-table-container {
                 padding: 1rem;
             }
 
-            .logo {
-                font-size: 1.8rem;
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
             }
         }
 
-        /* Tablet Styles */
         @media screen and (min-width: 769px) and (max-width: 1024px) {
-            .nav {
-                padding: 1rem 2rem;
+            .pricing-grid {
+                flex-wrap: wrap;
             }
 
-            .nav-links {
-                gap: 0.8rem;
-            }
-
-            .nav-links a {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
+            .pricing-card {
+                flex: 0 0 calc(50% - 1rem);
+                max-width: calc(50% - 1rem);
             }
         }
     </style>
@@ -917,7 +937,7 @@
 
     <header class="header">
         <nav class="nav">
-            <a href="#" class="logo">Intellix</a>
+            <a href="index.html" class="logo">Intellix</a>
             <button id="menuBtn" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
@@ -964,7 +984,7 @@
                 </div>
                 <a href="#resources"><i class="fas fa-archive"></i> Resources</a>
                 <a href="#community"><i class="fas fa-users"></i> Community</a>
-                <a href="/pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+                <a href="#pricing"><i class="fas fa-tag"></i> Pricing</a>
                 <a href="#login" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i>
                     Login
@@ -972,97 +992,199 @@
             </div>
         </nav>
     </header>
+
     <main>
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">Transform Your Learning Journey with AI</h1>
-                <p class="hero-subtitle">Harness the power of artificial intelligence to study smarter, not harder. Create personalized study plans, generate quizzes, and master any subject.</p>
-                <div class="hero-buttons">
-                    <a href="#get-started" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i>
-                        Get Started Free
-                    </a>
-                    <a href="#demo" class="btn btn-secondary">
-                        <i class="fas fa-play"></i>
-                        Watch Demo
-                    </a>
+        <section class="page-header">
+            <h1 class="page-title">Choose the Perfect Plan for Your Learning Journey</h1>
+            <p class="page-subtitle">Flexible pricing options designed to fit your needs, whether you're a student, educator, or part of a learning team.</p>
+        </section>
+
+        <section class="pricing-section">
+            <div class="pricing-toggle">
+                <span class="toggle-label">Monthly</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="billingToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label">Annually <span class="save-badge">Save 20%</span></span>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card animate-fadeInUp">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Basic</h3>
+                        <div class="pricing-price" data-monthly="Free" data-annual="Free">Free</div>
+                        <p class="pricing-period">Forever</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Basic AI Study Assistant (5 questions/day)</li>
+                        <li>5 Summaries per month</li>
+                        <li>Basic Flashcards</li>
+                        <li>Community Support</li>
+                        <li class="unavailable">Advanced Analytics</li>
+                        <li class="unavailable">Custom Study Plans</li>
+                        <li class="unavailable">Priority Support</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-secondary">Get Started</a>
+                </div>
+
+                <div class="pricing-card popular animate-fadeInUp">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Pro</h3>
+                        <div class="pricing-price" data-monthly="$9.99" data-annual="$7.99">$9.99</div>
+                        <p class="pricing-period" data-monthly="per month" data-annual="per month, billed annually">per month</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Advanced AI Assistant (unlimited)</li>
+                        <li>Unlimited Summaries</li>
+                        <li>Advanced Flashcards with Spaced Repetition</li>
+                        <li>Advanced Analytics Dashboard</li>
+                        <li>Custom Study Plans</li>
+                        <li>Priority Support</li>
+                        <li class="unavailable">Team Collaboration</li>
+                    </ul>
+                    <a href="#signup-pro" class="btn btn-primary">Upgrade Now</a>
+                </div>
+
+                <div class="pricing-card animate-fadeInUp">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Team</h3>
+                        <div class="pricing-price" data-monthly="$29.99" data-annual="$23.99">$29.99</div>
+                        <p class="pricing-period" data-monthly="per month" data-annual="per month, billed annually">per month</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Everything in Pro</li>
+                        <li>Team Collaboration (up to 10 members)</li>
+                        <li>Admin Dashboard</li>
+                        <li>API Access</li>
+                        <li>Custom Integration</li>
+                        <li>Dedicated Account Manager</li>
+                        <li>Custom Branding Options</li>
+                    </ul>
+                    <a href="#contact-sales" class="btn btn-secondary">Contact Sales</a>
                 </div>
             </div>
         </section>
 
-        <section class="features-section">
-            <h2 class="section-title">Revolutionary Features</h2>
-            <div class="features-grid">
-                <div class="feature-card animate-fadeInUp">
-                    <i class="fas fa-brain feature-icon"></i>
-                    <h3 class="feature-title">AI Study Assistant</h3>
-                    <p class="feature-description">Get instant answers to your questions and receive personalized explanations tailored to your learning style.</p>
-                </div>
-                <div class="feature-card animate-fadeInUp">
-                    <i class="fas fa-magic feature-icon"></i>
-                    <h3 class="feature-title">Smart Summarization</h3>
-                    <p class="feature-description">Transform lengthy content into concise, easy-to-understand summaries with our AI-powered tools.</p>
-                </div>
-                <div class="feature-card animate-fadeInUp">
-                    <i class="fas fa-chart-line feature-icon"></i>
-                    <h3 class="feature-title">Progress Tracking</h3>
-                    <p class="feature-description">Monitor your learning progress with detailed analytics and personalized insights.</p>
-                </div>
+        <section class="comparison-section">
+            <h2 class="comparison-title">Feature Comparison</h2>
+            <div class="comparison-table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Features</th>
+                            <th>Basic</th>
+                            <th>Pro</th>
+                            <th>Team</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AI Study Assistant</td>
+                            <td>Basic (5/day)</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Content Summarization</td>
+                            <td>5/month</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Flashcards</td>
+                            <td>Basic</td>
+                            <td>Advanced</td>
+                            <td>Advanced</td>
+                        </tr>
+                        <tr>
+                            <td>Quiz Generation</td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Study Analytics</td>
+                            <td>Basic</td>
+                            <td>Advanced</td>
+                            <td>Advanced + Team</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Study Plans</td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Team Collaboration</td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Priority Support</td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
-        <section class="how-it-works">
-            <h2 class="section-title">How It Works</h2>
-            <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Sign Up</h3>
-                    <p>Create your free account and tell us about your learning goals.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Choose Your Tools</h3>
-                    <p>Select from our suite of AI-powered study tools and features.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>Start Learning</h3>
-                    <p>Begin your enhanced learning journey with personalized support.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="testimonials">
-            <h2 class="section-title">What Our Users Say</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"Intellix has completely transformed how I study. The AI assistant feels like having a personal tutor available 24/7."</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Sarah M." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Sarah M.</h4>
-                            <p>Medical Student</p>
-                        </div>
+        <section class="faq-section">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I switch between plans?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can upgrade or downgrade your plan at any time. If you upgrade, the new features will be available immediately. If you downgrade, the changes will take effect at the end of your current billing cycle.</p>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"The smart summarization feature saves me hours of reading time. It's like having a study superpower!"</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="James K." class="author-avatar">
-                        <div class="author-info">
-                            <h4>James K.</h4>
-                            <p>Graduate Student</p>
-                        </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there a free trial for paid plans?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer a 14-day free trial for both Pro and Team plans. No credit card is required to start your trial, and you can cancel anytime before the trial ends.</p>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"As a teacher, I love how Intellix helps me create engaging study materials for my students in minutes."</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Emily R." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Emily R.</h4>
-                            <p>High School Teacher</p>
-                        </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does the annual billing work?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>With annual billing, you pay for 12 months upfront and receive a 20% discount compared to monthly billing. Your subscription will automatically renew after 12 months unless you cancel.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer educational discounts?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer special discounts for students, teachers, and educational institutions. Please contact our support team with your educational email or ID for verification.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and Apple Pay. For Team plans, we also offer invoice payment options.</p>
                     </div>
                 </div>
             </div>
@@ -1074,7 +1196,7 @@
                 <p class="cta-description">Join thousands of students who are already experiencing the future of learning with Intellix.</p>
                 <div class="cta-buttons">
                     <a href="#get-started" class="btn btn-primary">Start Free Trial</a>
-                    <a href="#learn-more" class="btn btn-secondary">Learn More</a>
+                    <a href="#contact-sales" class="btn btn-secondary">Contact Sales</a>
                 </div>
             </div>
         </section>
@@ -1165,14 +1287,44 @@
             }
         });
 
-        // Close mobile menu when window is resized above mobile breakpoint
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                navLinks.classList.remove('active');
-                menuBtn.querySelector('i').classList.remove('fa-times');
-                menuBtn.querySelector('i').classList.add('fa-bars');
-                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-            }
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Billing Toggle
+        const billingToggle = document.getElementById('billingToggle');
+        const pricingPrices = document.querySelectorAll('.pricing-price');
+        const pricingPeriods = document.querySelectorAll('.pricing-period');
+        
+        billingToggle.addEventListener('change', () => {
+            const isAnnual = billingToggle.checked;
+            
+            pricingPrices.forEach(price => {
+                if (price.dataset.annual && price.dataset.monthly) {
+                    price.textContent = isAnnual ? price.dataset.annual : price.dataset.monthly;
+                }
+            });
+            
+            pricingPeriods.forEach(period => {
+                if (period.dataset.annual && period.dataset.monthly) {
+                    period.textContent = isAnnual ? period.dataset.annual : period.dataset.monthly;
+                }
+            });
         });
 
         // Intersection Observer for Animations
@@ -1191,38 +1343,24 @@
         }, observerOptions);
 
         // Observe all cards and sections
-        document.querySelectorAll('.feature-card, .step-card, .testimonial-card, .pricing-card').forEach(el => {
+        document.querySelectorAll('.pricing-card, .faq-item').forEach(el => {
             observer.observe(el);
         });
 
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // Background animation on mousemove
+        document.addEventListener('mousemove', (e) => {
+            const spots = document.querySelectorAll('.spot');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            spots.forEach((spot, index) => {
+                const factor = (index + 1) * 0.1;
+                const offsetX = (mouseX - 0.5) * 50 * factor;
+                const offsetY = (mouseY - 0.5) * 50 * factor;
+                
+                spot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
             });
         });
-
-                    // Add this to your existing JavaScript
-            document.addEventListener('mousemove', (e) => {
-                const spots = document.querySelectorAll('.spot');
-                const mouseX = e.clientX / window.innerWidth;
-                const mouseY = e.clientY / window.innerHeight;
-
-                spots.forEach((spot, index) => {
-                    const factor = (index + 1) * 0.1;
-                    const offsetX = (mouseX - 0.5) * 50 * factor;
-                    const offsetY = (mouseY - 0.5) * 50 * factor;
-                    
-                    spot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-                });
-            });
     </script>
 </body>
 </html>
